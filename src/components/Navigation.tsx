@@ -18,24 +18,24 @@ const Navigation = () => {
                 className="h-10 w-10"
               />
               <div>
-                <h1 className="text-xl font-bold text-blue-900">LASU Connect</h1>
-                <p className="text-xs text-gray-600">Campus Portal</p>
+                <h1 className="text-xl font-bold text-purple-900">TSI</h1>
+                <p className="text-xs text-gray-600">Computer Science Portal</p>
               </div>
             </Link>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+            <Link to="/" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
               Home
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+            <Link to="/about" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
               About
             </Link>
-            <Link to="/login" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
+            <Link to="/login" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
               Login
             </Link>
-            <Link to="/signup" className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md text-sm font-medium transition-colors">
+            <Link to="/signup" className="border border-purple-600 text-purple-600 hover:bg-purple-50 px-4 py-2 rounded-md text-sm font-medium transition-colors">
               Sign Up
             </Link>
           </div>
@@ -44,7 +44,7 @@ const Navigation = () => {
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
+              className="text-gray-700 hover:text-purple-600 focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -55,16 +55,16 @@ const Navigation = () => {
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
-              <Link to="/" className="block text-gray-700 hover:text-blue-600 px-3 py-2 text-base font-medium">
+              <Link to="/" className="block text-gray-700 hover:text-purple-600 px-3 py-2 text-base font-medium">
                 Home
               </Link>
-              <Link to="/about" className="block text-gray-700 hover:text-blue-600 px-3 py-2 text-base font-medium">
+              <Link to="/about" className="block text-gray-700 hover:text-purple-600 px-3 py-2 text-base font-medium">
                 About
               </Link>
-              <Link to="/login" className="block bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-base font-medium mx-3 my-2 text-center">
+              <Link to="/login" className="block bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-md text-base font-medium mx-3 my-2 text-center">
                 Login
               </Link>
-              <Link to="/signup" className="block border border-blue-600 text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md text-base font-medium mx-3 my-2 text-center">
+              <Link to="/signup" className="block border border-purple-600 text-purple-600 hover:bg-purple-50 px-3 py-2 rounded-md text-base font-medium mx-3 my-2 text-center">
                 Sign Up
               </Link>
             </div>
