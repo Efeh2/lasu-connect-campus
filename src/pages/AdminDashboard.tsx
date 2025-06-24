@@ -1,106 +1,140 @@
-
-import React from 'react';
-import { Users, BookOpen, Award, Settings, Bell, User, LogOut, Plus, TrendingUp } from 'lucide-react';
+import React, { useState } from 'react';
+import { Users, BookOpen, Award, Settings, Bell, User, LogOut, Plus, TrendingUp, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="bg-white shadow-lg">
+      <nav className="bg-white shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
               <img 
                 src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
                 alt="LASU Logo" 
-                className="h-10 w-10 mr-3"
+                className="h-8 w-8 sm:h-10 sm:w-10 mr-2 sm:mr-3"
               />
               <div>
-                <h1 className="text-xl font-bold text-purple-700">TSI Admin</h1>
-                <p className="text-xs text-gray-600">Computer Science Portal</p>
+                <h1 className="text-lg sm:text-xl font-bold text-purple-700">TSI Admin</h1>
+                <p className="text-xs text-gray-600 hidden sm:block">Computer Science Portal</p>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <Bell className="text-gray-600 hover:text-purple-600 cursor-pointer" size={20} />
-              <User className="text-gray-600 hover:text-purple-600 cursor-pointer" size={20} />
-              <Link to="/" className="text-gray-600 hover:text-purple-600">
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              <Bell className="text-gray-600 hover:text-purple-600 cursor-pointer" size={18} />
+              <User className="text-gray-600 hover:text-purple-600 cursor-pointer" size={18} />
+              <button 
+                onClick={toggleMobileMenu}
+                className="lg:hidden text-gray-600 hover:text-purple-600"
+              >
+                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+              <Link to="/" className="hidden lg:block text-gray-600 hover:text-purple-600">
                 <LogOut size={20} />
               </Link>
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden bg-white border-t shadow-lg">
+            <div className="px-4 py-3 space-y-3">
+              <Link to="/admin/manage-users" className="block bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
+                Manage Users
+              </Link>
+              <Link to="/admin/system-settings" className="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
+                System Settings
+              </Link>
+              <Link to="/admin/generate-reports" className="block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
+                Generate Reports
+              </Link>
+              <Link to="/admin/platform-analytics" className="block bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
+                Platform Analytics
+              </Link>
+              <Link to="/" className="block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
+                Logout
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Computer Science Department Management</p>
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+          <p className="text-sm sm:text-base text-gray-600">Computer Science Department Management</p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-lg">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
             <div className="flex items-center">
-              <div className="bg-blue-100 p-3 rounded-lg">
-                <Users className="text-blue-600" size={24} />
+              <div className="bg-blue-100 p-2 sm:p-3 rounded-lg">
+                <Users className="text-blue-600" size={20} />
               </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900">487</h3>
-                <p className="text-gray-600">Total Students</p>
+              <div className="ml-3 sm:ml-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">487</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Total Students</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-lg">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
             <div className="flex items-center">
-              <div className="bg-green-100 p-3 rounded-lg">
-                <User className="text-green-600" size={24} />
+              <div className="bg-green-100 p-2 sm:p-3 rounded-lg">
+                <User className="text-green-600" size={20} />
               </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900">24</h3>
-                <p className="text-gray-600">Faculty Members</p>
+              <div className="ml-3 sm:ml-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">24</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Faculty Members</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-lg">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
             <div className="flex items-center">
-              <div className="bg-purple-100 p-3 rounded-lg">
-                <BookOpen className="text-purple-600" size={24} />
+              <div className="bg-purple-100 p-2 sm:p-3 rounded-lg">
+                <BookOpen className="text-purple-600" size={20} />
               </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900">32</h3>
-                <p className="text-gray-600">Active Courses</p>
+              <div className="ml-3 sm:ml-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">32</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Active Courses</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-lg">
+          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
             <div className="flex items-center">
-              <div className="bg-yellow-100 p-3 rounded-lg">
-                <TrendingUp className="text-yellow-600" size={24} />
+              <div className="bg-yellow-100 p-2 sm:p-3 rounded-lg">
+                <TrendingUp className="text-yellow-600" size={20} />
               </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900">94%</h3>
-                <p className="text-gray-600">Platform Usage</p>
+              <div className="ml-3 sm:ml-4">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">94%</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Platform Usage</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* User Management */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-900">User Management by Level</h2>
-                <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900">User Management by Level</h2>
+                <Link to="/admin/add-user" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors text-sm">
                   <Plus size={16} />
                   Add User
-                </button>
+                </Link>
               </div>
               <div className="space-y-4">
                 <div className="border rounded-lg p-4">
@@ -149,8 +183,8 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Activities</h2>
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Recent Activities</h2>
               <div className="space-y-3">
                 <div className="flex items-center p-3 bg-blue-50 rounded">
                   <div className="bg-blue-600 p-2 rounded-full mr-3">
@@ -187,26 +221,26 @@ const AdminDashboard = () => {
 
           {/* Quick Actions & System Status */}
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 hidden lg:block">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
               <div className="space-y-3">
-                <button className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <Link to="/admin/manage-users" className="block w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
                   Manage Users
-                </button>
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                </Link>
+                <Link to="/admin/system-settings" className="block w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
                   System Settings
-                </button>
-                <button className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors">
+                </Link>
+                <Link to="/admin/generate-reports" className="block w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
                   Generate Reports
-                </button>
-                <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors">
+                </Link>
+                <Link to="/admin/platform-analytics" className="block w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
                   Platform Analytics
-                </button>
+                </Link>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">System Status</h2>
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">System Status</h2>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600">Server Status</span>
@@ -227,8 +261,8 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Pending Approvals</h2>
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Pending Approvals</h2>
               <div className="space-y-3">
                 <div className="border-l-4 border-red-500 pl-3 py-2">
                   <p className="text-sm text-gray-900">Teacher registration</p>
