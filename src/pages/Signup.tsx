@@ -15,7 +15,7 @@ const Signup = () => {
     email: '',
     phone: '',
     studentId: '',
-    department: '',
+    level: '',
     password: '',
     confirmPassword: ''
   });
@@ -33,17 +33,11 @@ const Signup = () => {
     // Handle signup logic here
   };
 
-  const departments = [
-    'Computer Science',
-    'Engineering',
-    'Medicine',
-    'Law',
-    'Business Administration',
-    'Arts',
-    'Sciences',
-    'Education',
-    'Social Sciences'
-  ];
+  const levels = userType === 'student' 
+    ? ['100 Level', '200 Level', '300 Level', '400 Level', '500 Level']
+    : userType === 'teacher'
+    ? ['Assistant Lecturer', 'Lecturer II', 'Lecturer I', 'Senior Lecturer', 'Professor']
+    : ['Department Admin', 'Faculty Admin', 'System Admin'];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -59,7 +53,7 @@ const Signup = () => {
                 alt="LASU Logo" 
                 className="h-16 w-16 mx-auto mb-4"
               />
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">Join LASU Connect</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">Join TSI</h2>
               <p className="text-gray-600">Create your account to get started</p>
             </div>
 
@@ -74,7 +68,7 @@ const Signup = () => {
                   onClick={() => setUserType('student')}
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                     userType === 'student'
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-purple-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -85,7 +79,7 @@ const Signup = () => {
                   onClick={() => setUserType('teacher')}
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                     userType === 'teacher'
-                      ? 'bg-green-600 text-white'
+                      ? 'bg-purple-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
@@ -121,7 +115,7 @@ const Signup = () => {
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                       placeholder="First name"
                       required
                     />
@@ -140,7 +134,7 @@ const Signup = () => {
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                       placeholder="Last name"
                       required
                     />
@@ -161,7 +155,7 @@ const Signup = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                     placeholder="Enter your email"
                     required
                   />
@@ -182,7 +176,7 @@ const Signup = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                       placeholder="Phone number"
                       required
                     />
@@ -201,7 +195,7 @@ const Signup = () => {
                       name="studentId"
                       value={formData.studentId}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                       placeholder={`Enter your ${userType === 'student' ? 'student' : userType === 'teacher' ? 'staff' : 'admin'} ID`}
                       required
                     />
@@ -209,22 +203,22 @@ const Signup = () => {
                 </div>
               </div>
 
-              {/* Department */}
+              {/* Level */}
               <div>
-                <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-2">
-                  Department
+                <label htmlFor="level" className="block text-sm font-medium text-gray-700 mb-2">
+                  {userType === 'student' ? 'Level' : userType === 'teacher' ? 'Academic Rank' : 'Admin Level'}
                 </label>
                 <select
-                  id="department"
-                  name="department"
-                  value={formData.department}
+                  id="level"
+                  name="level"
+                  value={formData.level}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                   required
                 >
-                  <option value="">Select your department</option>
-                  {departments.map((dept) => (
-                    <option key={dept} value={dept}>{dept}</option>
+                  <option value="">Select your {userType === 'student' ? 'level' : userType === 'teacher' ? 'rank' : 'admin level'}</option>
+                  {levels.map((level) => (
+                    <option key={level} value={level}>{level}</option>
                   ))}
                 </select>
               </div>
@@ -243,7 +237,7 @@ const Signup = () => {
                       name="password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                       placeholder="Create password"
                       required
                     />
@@ -269,7 +263,7 @@ const Signup = () => {
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
-                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                       placeholder="Confirm password"
                       required
                     />
@@ -289,26 +283,20 @@ const Signup = () => {
                 <input
                   type="checkbox"
                   id="terms"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                   required
                 />
                 <label htmlFor="terms" className="ml-2 text-sm text-gray-600">
                   I agree to the{' '}
-                  <a href="#" className="text-blue-600 hover:text-blue-800">Terms of Service</a>
+                  <a href="#" className="text-purple-600 hover:text-purple-800">Terms of Service</a>
                   {' '}and{' '}
-                  <a href="#" className="text-blue-600 hover:text-blue-800">Privacy Policy</a>
+                  <a href="#" className="text-purple-600 hover:text-purple-800">Privacy Policy</a>
                 </label>
               </div>
 
               <button
                 type="submit"
-                className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors ${
-                  userType === 'student'
-                    ? 'bg-blue-600 hover:bg-blue-700'
-                    : userType === 'teacher'
-                    ? 'bg-green-600 hover:bg-green-700'
-                    : 'bg-purple-600 hover:bg-purple-700'
-                }`}
+                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700"
               >
                 Create {userType.charAt(0).toUpperCase() + userType.slice(1)} Account
               </button>
@@ -318,7 +306,7 @@ const Signup = () => {
             <div className="mt-8 text-center">
               <p className="text-gray-600">
                 Already have an account?{' '}
-                <Link to="/login" className="text-blue-600 hover:text-blue-800 font-semibold">
+                <Link to="/login" className="text-purple-600 hover:text-purple-800 font-semibold">
                   Sign in here
                 </Link>
               </p>
