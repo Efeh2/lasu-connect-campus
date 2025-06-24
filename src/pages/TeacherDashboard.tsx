@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BookOpen, Users, Award, Calendar, Bell, User, LogOut, Plus } from 'lucide-react';
+import { BookOpen, Users, Award, Calendar, Bell, User, LogOut, Plus, MessageSquare, Filter } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TeacherDashboard = () => {
@@ -67,8 +67,8 @@ const TeacherDashboard = () => {
 
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <div className="flex items-center">
-              <div className="bg-yellow-100 p-3 rounded-lg">
-                <Calendar className="text-yellow-600" size={24} />
+              <div className="bg-amber-100 p-3 rounded-lg">
+                <Calendar className="text-amber-600" size={24} />
               </div>
               <div className="ml-4">
                 <h3 className="text-2xl font-bold text-gray-900">8</h3>
@@ -85,6 +85,133 @@ const TeacherDashboard = () => {
               <div className="ml-4">
                 <h3 className="text-2xl font-bold text-gray-900">12</h3>
                 <p className="text-gray-600">Assignments</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Interaction Management */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                  <Filter className="text-green-600" size={24} />
+                  Assignment Sorting & Grading
+                </h2>
+                <div className="flex gap-2">
+                  <select className="border border-gray-300 rounded px-3 py-1 text-sm">
+                    <option>All Levels</option>
+                    <option>200 Level</option>
+                    <option>300 Level</option>
+                    <option>400 Level</option>
+                  </select>
+                  <select className="border border-gray-300 rounded px-3 py-1 text-sm">
+                    <option>All Courses</option>
+                    <option>Data Structures</option>
+                    <option>Intro Programming</option>
+                    <option>Advanced Algorithms</option>
+                  </select>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="border-l-4 border-red-500 pl-4 py-3 bg-red-50 rounded">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Data Structures Assignment #3</h3>
+                      <p className="text-gray-600 text-sm">300 Level | 15 submissions pending</p>
+                      <p className="text-xs text-gray-500">Due: Dec 28, 2024</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                        Grade Now
+                      </button>
+                      <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                        View All
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="border-l-4 border-amber-500 pl-4 py-3 bg-amber-50 rounded">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Intro Programming Quiz</h3>
+                      <p className="text-gray-600 text-sm">200 Level | 8 submissions pending</p>
+                      <p className="text-xs text-gray-500">Due: Dec 25, 2024</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                        Grade Now
+                      </button>
+                      <button className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                        View All
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-l-4 border-green-500 pl-4 py-3 bg-green-50 rounded">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Advanced Algorithms Project</h3>
+                      <p className="text-gray-600 text-sm">400 Level | All graded ✓</p>
+                      <p className="text-xs text-gray-500">Completed: Dec 20, 2024</p>
+                    </div>
+                    <div className="flex gap-2">
+                      <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                        View Results
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <MessageSquare className="text-blue-600" size={24} />
+                Student Messages
+              </h2>
+              <div className="space-y-3">
+                <div className="border border-blue-200 p-3 rounded-lg bg-blue-50">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-blue-800 text-sm">John Doe (300L)</h3>
+                    <span className="text-xs text-blue-600">2h ago</span>
+                  </div>
+                  <p className="text-blue-700 text-sm mb-2">Question about assignment 3 implementation...</p>
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                    Reply
+                  </button>
+                </div>
+
+                <div className="border border-green-200 p-3 rounded-lg bg-green-50">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-green-800 text-sm">Jane Smith (400L)</h3>
+                    <span className="text-xs text-green-600">5h ago</span>
+                  </div>
+                  <p className="text-green-700 text-sm mb-2">Request for consultation hours...</p>
+                  <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                    Reply
+                  </button>
+                </div>
+
+                <div className="border border-amber-200 p-3 rounded-lg bg-amber-50">
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-amber-800 text-sm">Mike Johnson (200L)</h3>
+                    <span className="text-xs text-amber-600">1d ago</span>
+                  </div>
+                  <p className="text-amber-700 text-sm mb-2">Late submission request...</p>
+                  <button className="bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded text-xs transition-colors">
+                    Reply
+                  </button>
+                </div>
+
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm">
+                  View All Messages
+                </button>
               </div>
             </div>
           </div>
@@ -117,7 +244,7 @@ const TeacherDashboard = () => {
                   <p className="text-gray-600 text-sm">62 students | Tue, Thu 2:00 PM</p>
                   <div className="mt-2 flex gap-2">
                     <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">All graded</span>
-                    <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Quiz scheduled</span>
+                    <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs">Quiz scheduled</span>
                   </div>
                 </div>
 
@@ -132,7 +259,7 @@ const TeacherDashboard = () => {
             </div>
           </div>
 
-          {/* Quick Actions & Messages */}
+          {/* Quick Actions */}
           <div className="space-y-6">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
@@ -146,27 +273,9 @@ const TeacherDashboard = () => {
                 <button className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
                   Schedule Consultation
                 </button>
-                <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <button className="w-full bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg transition-colors">
                   View Analytics
                 </button>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Student Messages</h2>
-              <div className="space-y-3">
-                <div className="border-l-4 border-blue-500 pl-3 py-2">
-                  <p className="text-sm text-gray-900">Question about assignment 3</p>
-                  <p className="text-xs text-gray-600">John Doe (300L) - 1 hour ago</p>
-                </div>
-                <div className="border-l-4 border-green-500 pl-3 py-2">
-                  <p className="text-sm text-gray-900">Request for consultation</p>
-                  <p className="text-xs text-gray-600">Jane Smith (400L) - 3 hours ago</p>
-                </div>
-                <div className="border-l-4 border-yellow-500 pl-3 py-2">
-                  <p className="text-sm text-gray-900">Late submission request</p>
-                  <p className="text-xs text-gray-600">Mike Johnson (200L) - 5 hours ago</p>
-                </div>
               </div>
             </div>
           </div>

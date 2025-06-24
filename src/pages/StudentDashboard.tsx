@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BookOpen, Users, Award, Calendar, Bell, User, LogOut } from 'lucide-react';
+import { BookOpen, Users, Award, Calendar, Bell, User, LogOut, MessageSquare, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const StudentDashboard = () => {
@@ -67,8 +67,8 @@ const StudentDashboard = () => {
 
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <div className="flex items-center">
-              <div className="bg-yellow-100 p-3 rounded-lg">
-                <Calendar className="text-yellow-600" size={24} />
+              <div className="bg-amber-100 p-3 rounded-lg">
+                <Calendar className="text-amber-600" size={24} />
               </div>
               <div className="ml-4">
                 <h3 className="text-2xl font-bold text-gray-900">4</h3>
@@ -85,6 +85,73 @@ const StudentDashboard = () => {
               <div className="ml-4">
                 <h3 className="text-2xl font-bold text-gray-900">12</h3>
                 <p className="text-gray-600">Study Groups</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Interaction Space */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <MessageSquare className="text-purple-600" size={24} />
+                Messages & Communication
+              </h2>
+              <div className="space-y-4">
+                <div className="border-l-4 border-purple-500 pl-4 py-2 bg-purple-50 rounded">
+                  <h3 className="font-semibold text-gray-900">Message from Dr. Johnson</h3>
+                  <p className="text-gray-600 text-sm">Assignment submission deadline extended for Data Structures</p>
+                  <div className="mt-2">
+                    <span className="text-xs text-gray-500">2 hours ago</span>
+                    <button className="ml-3 text-purple-600 text-xs hover:underline">Reply</button>
+                  </div>
+                </div>
+                
+                <div className="border-l-4 border-blue-500 pl-4 py-2 bg-blue-50 rounded">
+                  <h3 className="font-semibold text-gray-900">Study Group Invitation</h3>
+                  <p className="text-gray-600 text-sm">Join our Database Management study group for tomorrow's quiz</p>
+                  <div className="mt-2">
+                    <span className="text-xs text-gray-500">5 hours ago</span>
+                    <button className="ml-3 text-blue-600 text-xs hover:underline">Join</button>
+                  </div>
+                </div>
+
+                <button className="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
+                  Start New Conversation
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <Upload className="text-green-600" size={24} />
+                Assignment Submission
+              </h2>
+              <div className="space-y-4">
+                <div className="border border-red-200 p-3 rounded-lg bg-red-50">
+                  <h3 className="font-semibold text-red-800">Data Structures Assignment</h3>
+                  <p className="text-red-600 text-sm">Due: Dec 28, 2024</p>
+                  <button className="mt-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                    Submit Now
+                  </button>
+                </div>
+
+                <div className="border border-amber-200 p-3 rounded-lg bg-amber-50">
+                  <h3 className="font-semibold text-amber-800">Software Engineering Project</h3>
+                  <p className="text-amber-600 text-sm">Due: Jan 5, 2025</p>
+                  <button className="mt-2 bg-amber-600 hover:bg-amber-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                    View Details
+                  </button>
+                </div>
+
+                <div className="border border-green-200 p-3 rounded-lg bg-green-50">
+                  <h3 className="font-semibold text-green-800">Database Quiz Prep</h3>
+                  <p className="text-green-600 text-sm">Submitted ✓</p>
+                  <span className="text-xs text-green-600">Grade: 85/100</span>
+                </div>
               </div>
             </div>
           </div>
@@ -109,7 +176,7 @@ const StudentDashboard = () => {
                   <h3 className="font-semibold text-gray-900">Database Management Systems</h3>
                   <p className="text-gray-600 text-sm">Prof. Williams | Tue, Thu 2:00 PM</p>
                   <div className="mt-2">
-                    <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Quiz Tomorrow</span>
+                    <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded text-xs">Quiz Tomorrow</span>
                   </div>
                 </div>
 
@@ -138,7 +205,7 @@ const StudentDashboard = () => {
                 <button className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
                   Message Teacher
                 </button>
-                <button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors">
+                <button className="w-full bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg transition-colors">
                   View Grades
                 </button>
               </div>

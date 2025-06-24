@@ -17,9 +17,12 @@ const Navigation = () => {
                 alt="LASU Logo" 
                 className="h-10 w-10"
               />
-              <div>
+              <div className="hidden sm:block">
                 <h1 className="text-xl font-bold text-purple-900">TSI</h1>
-                <p className="text-xs text-gray-600">Computer Science Portal</p>
+                <p className="text-xs text-gray-600">Teacher-Student Interaction System</p>
+              </div>
+              <div className="sm:hidden">
+                <h1 className="text-lg font-bold text-purple-900">TSI</h1>
               </div>
             </Link>
           </div>
