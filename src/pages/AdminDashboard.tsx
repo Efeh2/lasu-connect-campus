@@ -14,6 +14,7 @@ import {
   PieChart,
   Download
 } from 'lucide-react';
+import UserAvatar from '../components/UserAvatar';
 
 const AdminDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

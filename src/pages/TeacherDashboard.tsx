@@ -16,6 +16,7 @@ import {
   Clock,
   TrendingUp
 } from 'lucide-react';
+import UserAvatar from '../components/UserAvatar';
 
 const TeacherDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -29,9 +30,9 @@ const TeacherDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 shadow-sm transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center">
             <img 
@@ -42,13 +43,14 @@ const TeacherDashboard = () => {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Teacher Dashboard</h1>
           </div>
           <div className="flex items-center space-x-4">
-            <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+            <UserAvatar name="Dr. Smith" role="teacher" />
+            <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
               Home
             </Link>
             <div className="lg:hidden">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-md text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
+                className="p-2 rounded-md text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
               >
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -59,7 +61,7 @@ const TeacherDashboard = () => {
 
       {/* Mobile Quick Actions Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+        <div className="lg:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
           <div className="px-4 py-2">
             <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Quick Actions</h3>
             <div className="space-y-1">
@@ -67,7 +69,7 @@ const TeacherDashboard = () => {
                 <Link
                   key={index}
                   to={action.href}
-                  className="flex items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
+                  className="flex items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <action.icon size={16} className="mr-3" />
@@ -87,7 +89,7 @@ const TeacherDashboard = () => {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
             <div className="flex items-center">
               <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
                 <BookOpen className="text-blue-600 dark:text-blue-400" size={24} />
@@ -99,7 +101,7 @@ const TeacherDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
             <div className="flex items-center">
               <div className="bg-green-100 dark:bg-green-900 p-3 rounded-full">
                 <Users className="text-green-600 dark:text-green-400" size={24} />
@@ -111,7 +113,7 @@ const TeacherDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
             <div className="flex items-center">
               <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-full">
                 <Award className="text-purple-600 dark:text-purple-400" size={24} />
@@ -123,7 +125,7 @@ const TeacherDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
             <div className="flex items-center">
               <div className="bg-orange-100 dark:bg-orange-900 p-3 rounded-full">
                 <Calendar className="text-orange-600 dark:text-orange-400" size={24} />
@@ -157,10 +159,10 @@ const TeacherDashboard = () => {
 
         {/* Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent Submissions</h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">Data Structures Assignment</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">John Doe - 300 Level</p>
@@ -169,7 +171,7 @@ const TeacherDashboard = () => {
                   New
                 </span>
               </div>
-              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">Algorithms Project</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Jane Smith - 400 Level</p>
@@ -181,17 +183,17 @@ const TeacherDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Upcoming Events</h3>
             <div className="space-y-4">
-              <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <Calendar className="text-blue-600 dark:text-blue-400 mr-3" size={20} />
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">CSC 301 - Lecture</h4>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Today at 2:00 PM</p>
                 </div>
               </div>
-              <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <MessageSquare className="text-green-600 dark:text-green-400 mr-3" size={20} />
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">Student Consultation</h4>
