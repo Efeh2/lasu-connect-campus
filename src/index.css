@@ -98,11 +98,30 @@
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground transition-colors duration-300;
+  html {
+    @apply bg-background text-foreground;
   }
 
-  /* Ensure proper dark mode text colors */
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+    min-height: 100vh;
+  }
+
+  /* Ensure all page containers inherit background */
+  .min-h-screen {
+    @apply bg-background;
+  }
+
+  /* Light mode text colors */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-gray-900;
+  }
+
+  p {
+    @apply text-gray-700;
+  }
+
+  /* Dark mode text colors with better contrast */
   .dark {
     color-scheme: dark;
   }
@@ -113,27 +132,59 @@
   .dark h4,
   .dark h5,
   .dark h6 {
-    @apply text-gray-100;
+    @apply text-gray-100 !important;
   }
 
   .dark p {
-    @apply text-gray-300;
+    @apply text-gray-200 !important;
   }
 
+  /* Override specific gray text colors for better dark mode visibility */
   .dark .text-gray-600 {
-    @apply text-gray-300;
+    @apply text-gray-300 !important;
   }
 
   .dark .text-gray-700 {
-    @apply text-gray-200;
+    @apply text-gray-200 !important;
   }
 
   .dark .text-gray-800 {
-    @apply text-gray-100;
+    @apply text-gray-100 !important;
   }
 
   .dark .text-gray-900 {
-    @apply text-white;
+    @apply text-white !important;
+  }
+
+  /* Ensure form elements work well in dark mode */
+  .dark input,
+  .dark textarea,
+  .dark select {
+    @apply bg-gray-800 text-gray-100 border-gray-600;
+  }
+
+  .dark input::placeholder,
+  .dark textarea::placeholder {
+    @apply text-gray-400;
+  }
+
+  /* Ensure buttons maintain good contrast */
+  .dark .bg-white {
+    @apply bg-gray-800 !important;
+  }
+
+  .dark .bg-gray-50 {
+    @apply bg-gray-700 !important;
+  }
+
+  .dark .bg-gray-100 {
+    @apply bg-gray-600 !important;
+  }
+
+  /* Ensure card backgrounds work in dark mode */
+  .dark .shadow-sm,
+  .dark .shadow-lg {
+    @apply shadow-gray-900/20;
   }
 }
 
