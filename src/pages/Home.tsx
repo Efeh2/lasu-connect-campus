@@ -13,7 +13,7 @@ const Home = () => {
       <section 
         className="relative text-white min-h-screen flex items-center"
         style={{
-          backgroundImage: `url('/lovable-uploads/89ed842b-12dd-45c5-a7f2-aa37450a0c4f.png')`,
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/lovable-uploads/89ed842b-12dd-45c5-a7f2-aa37450a0c4f.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
@@ -22,16 +22,16 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6 animate-fade-in">
-                Welcome to <span className="text-amber-600">TSI</span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6 animate-fade-in text-white">
+                Welcome to <span className="text-amber-400">TSI</span>
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-100 mb-2 sm:mb-4 leading-relaxed font-medium animate-fade-in">
+              <p className="text-xl sm:text-2xl text-amber-100 mb-2 sm:mb-4 leading-relaxed font-medium animate-fade-in">
                 Teacher-Student Interaction System
               </p>
-              <p className="text-lg sm:text-xl text-gray-100 mb-2 sm:mb-4 leading-relaxed animate-fade-in">
+              <p className="text-lg sm:text-xl text-amber-100 mb-2 sm:mb-4 leading-relaxed animate-fade-in">
                 Computer Science Department - LASU
               </p>
-              <p className="text-base sm:text-lg text-gray-200 mb-6 sm:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-in">
+              <p className="text-base sm:text-lg text-gray-100 mb-6 sm:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-in">
                 Connect, collaborate, and excel together in our digital learning environment. 
                 Seamless level-based interaction between educators and students in Computer Science.
               </p>
@@ -58,8 +58,8 @@ const Home = () => {
                     alt="LASU Logo" 
                     className="h-24 w-24 sm:h-32 sm:w-32 mx-auto mb-4"
                   />
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2">LASU CSC Department</h3>
-                  <p className="text-gray-100 text-sm sm:text-base">Excellence in Computer Science Education</p>
+                  <h3 className="text-xl sm:text-2xl font-bold mb-2 text-white">LASU CSC Department</h3>
+                  <p className="text-amber-100 text-sm sm:text-base">Excellence in Computer Science Education</p>
                 </div>
               </div>
             </div>
@@ -68,7 +68,7 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16 animate-fade-in">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -114,7 +114,7 @@ const Home = () => {
       </section>
 
       {/* User Types Section */}
-      <section className="py-12 sm:py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16 animate-fade-in">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
@@ -178,7 +178,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white py-12 sm:py-20 animate-fade-in">
+      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 text-white py-12 sm:py-20 animate-fade-in">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
             Ready to Transform Your CSC Experience?

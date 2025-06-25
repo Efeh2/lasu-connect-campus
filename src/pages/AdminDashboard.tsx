@@ -1,281 +1,204 @@
 import React, { useState } from 'react';
-import { Users, BookOpen, Award, Settings, Bell, User, LogOut, Plus, TrendingUp, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { 
+  Users, 
+  Settings, 
+  BarChart3, 
+  FileText, 
+  Shield, 
+  Database,
+  Menu,
+  X,
+  UserPlus,
+  Cog,
+  PieChart,
+  Download
+} from 'lucide-react';
 
 const AdminDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const quickActions = [
+    { title: 'Add User', icon: UserPlus, href: '/admin/add-user', color: 'bg-blue-500' },
+    { title: 'Manage Users', icon: Users, href: '/admin/manage-users', color: 'bg-green-500' },
+    { title: 'System Settings', icon: Cog, href: '/admin/system-settings', color: 'bg-purple-500' },
+    { title: 'Generate Reports', icon: Download, href: '/admin/generate-reports', color: 'bg-orange-500' },
+    { title: 'Platform Analytics', icon: PieChart, href: '/admin/platform-analytics', color: 'bg-indigo-500' },
+  ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <nav className="bg-white shadow-lg sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <img 
-                src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
-                alt="LASU Logo" 
-                className="h-8 w-8 sm:h-10 sm:w-10 mr-2 sm:mr-3"
-              />
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold text-purple-700">TSI Admin</h1>
-                <p className="text-xs text-gray-600 hidden sm:block">Computer Science Portal</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <Bell className="text-gray-600 hover:text-purple-600 cursor-pointer" size={18} />
-              <User className="text-gray-600 hover:text-purple-600 cursor-pointer" size={18} />
-              <button 
-                onClick={toggleMobileMenu}
-                className="lg:hidden text-gray-600 hover:text-purple-600"
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
+      <div className="bg-white dark:bg-gray-800 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <div className="flex items-center">
+            <img 
+              src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
+              alt="LASU Logo" 
+              className="h-8 w-8 mr-3"
+            />
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              Home
+            </Link>
+            <div className="lg:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-md text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
               >
-                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
-              <Link to="/" className="hidden lg:block text-gray-600 hover:text-purple-600">
-                <LogOut size={20} />
-              </Link>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden bg-white border-t shadow-lg">
-            <div className="px-4 py-3 space-y-3">
-              <Link to="/admin/manage-users" className="block bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
-                Manage Users
-              </Link>
-              <Link to="/admin/system-settings" className="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
-                System Settings
-              </Link>
-              <Link to="/admin/generate-reports" className="block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
-                Generate Reports
-              </Link>
-              <Link to="/admin/platform-analytics" className="block bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
-                Platform Analytics
-              </Link>
-              <Link to="/" className="block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-center transition-colors">
-                Logout
-              </Link>
+      {/* Mobile Quick Actions Menu */}
+      {isMobileMenuOpen && (
+        <div className="lg:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <div className="px-4 py-2">
+            <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Quick Actions</h3>
+            <div className="space-y-1">
+              {quickActions.map((action, index) => (
+                <Link
+                  key={index}
+                  to={action.href}
+                  className="flex items-center px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <action.icon size={16} className="mr-3" />
+                  {action.title}
+                </Link>
+              ))}
             </div>
           </div>
-        )}
-      </nav>
+        </div>
+      )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-          <p className="text-sm sm:text-base text-gray-600">Computer Science Department Management</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back, Admin!</h2>
+          <p className="text-gray-600 dark:text-gray-400">System overview and management tools.</p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
             <div className="flex items-center">
-              <div className="bg-blue-100 p-2 sm:p-3 rounded-lg">
-                <Users className="text-blue-600" size={20} />
+              <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
+                <Users className="text-blue-600 dark:text-blue-400" size={24} />
               </div>
-              <div className="ml-3 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">487</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Total Students</p>
+              <div className="ml-4">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">1,234</h3>
+                <p className="text-gray-600 dark:text-gray-400">Total Users</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
             <div className="flex items-center">
-              <div className="bg-green-100 p-2 sm:p-3 rounded-lg">
-                <User className="text-green-600" size={20} />
+              <div className="bg-green-100 dark:bg-green-900 p-3 rounded-full">
+                <Shield className="text-green-600 dark:text-green-400" size={24} />
               </div>
-              <div className="ml-3 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">24</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Faculty Members</p>
+              <div className="ml-4">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">45</h3>
+                <p className="text-gray-600 dark:text-gray-400">Active Teachers</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
             <div className="flex items-center">
-              <div className="bg-purple-100 p-2 sm:p-3 rounded-lg">
-                <BookOpen className="text-purple-600" size={20} />
+              <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-full">
+                <Database className="text-purple-600 dark:text-purple-400" size={24} />
               </div>
-              <div className="ml-3 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">32</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Active Courses</p>
+              <div className="ml-4">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">98.5%</h3>
+                <p className="text-gray-600 dark:text-gray-400">System Uptime</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
             <div className="flex items-center">
-              <div className="bg-yellow-100 p-2 sm:p-3 rounded-lg">
-                <TrendingUp className="text-yellow-600" size={20} />
+              <div className="bg-orange-100 dark:bg-orange-900 p-3 rounded-full">
+                <BarChart3 className="text-orange-600 dark:text-orange-400" size={24} />
               </div>
-              <div className="ml-3 sm:ml-4">
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900">94%</h3>
-                <p className="text-xs sm:text-sm text-gray-600">Platform Usage</p>
+              <div className="ml-4">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">85%</h3>
+                <p className="text-gray-600 dark:text-gray-400">Active Sessions</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-          {/* User Management */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-                <h2 className="text-lg sm:text-xl font-bold text-gray-900">User Management by Level</h2>
-                <Link to="/admin/add-user" className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors text-sm">
-                  <Plus size={16} />
-                  Add User
-                </Link>
-              </div>
-              <div className="space-y-4">
-                <div className="border rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2">Students by Level</h3>
-                  <div className="grid grid-cols-5 gap-4 text-center">
-                    <div className="bg-blue-50 p-3 rounded">
-                      <div className="text-lg font-bold text-blue-600">98</div>
-                      <div className="text-xs text-gray-600">100L</div>
-                    </div>
-                    <div className="bg-green-50 p-3 rounded">
-                      <div className="text-lg font-bold text-green-600">102</div>
-                      <div className="text-xs text-gray-600">200L</div>
-                    </div>
-                    <div className="bg-yellow-50 p-3 rounded">
-                      <div className="text-lg font-bold text-yellow-600">95</div>
-                      <div className="text-xs text-gray-600">300L</div>
-                    </div>
-                    <div className="bg-purple-50 p-3 rounded">
-                      <div className="text-lg font-bold text-purple-600">89</div>
-                      <div className="text-xs text-gray-600">400L</div>
-                    </div>
-                    <div className="bg-red-50 p-3 rounded">
-                      <div className="text-lg font-bold text-red-600">103</div>
-                      <div className="text-xs text-gray-600">500L</div>
-                    </div>
-                  </div>
+        {/* Quick Actions - Desktop Only */}
+        <div className="hidden lg:block mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {quickActions.map((action, index) => (
+              <Link
+                key={index}
+                to={action.href}
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 hover:shadow-lg transition-all duration-200 transform hover:scale-105 animate-fade-in"
+              >
+                <div className={`${action.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
+                  <action.icon className="text-white" size={20} />
                 </div>
-                
-                <div className="border rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2">Faculty by Rank</h3>
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div className="bg-green-50 p-3 rounded">
-                      <div className="text-lg font-bold text-green-600">8</div>
-                      <div className="text-xs text-gray-600">Lecturers</div>
-                    </div>
-                    <div className="bg-blue-50 p-3 rounded">
-                      <div className="text-lg font-bold text-blue-600">12</div>
-                      <div className="text-xs text-gray-600">Senior Lecturers</div>
-                    </div>
-                    <div className="bg-purple-50 p-3 rounded">
-                      <div className="text-lg font-bold text-purple-600">4</div>
-                      <div className="text-xs text-gray-600">Professors</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                <h4 className="font-semibold text-gray-900 dark:text-white">{action.title}</h4>
+              </Link>
+            ))}
+          </div>
+        </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Recent Activities</h2>
-              <div className="space-y-3">
-                <div className="flex items-center p-3 bg-blue-50 rounded">
-                  <div className="bg-blue-600 p-2 rounded-full mr-3">
-                    <User className="text-white" size={16} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">New student registration</p>
-                    <p className="text-xs text-gray-600">John Doe joined 300L - 2 hours ago</p>
-                  </div>
+        {/* Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent User Activity</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div>
+                  <h4 className="font-medium text-gray-900 dark:text-white">New User Registration</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">John Doe - Student</p>
                 </div>
-                
-                <div className="flex items-center p-3 bg-green-50 rounded">
-                  <div className="bg-green-600 p-2 rounded-full mr-3">
-                    <BookOpen className="text-white" size={16} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">Course created</p>
-                    <p className="text-xs text-gray-600">Dr. Johnson added Advanced Algorithms - 4 hours ago</p>
-                  </div>
+                <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-sm">
+                  Active
+                </span>
+              </div>
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Course Created</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Dr. Smith - CSC 401</p>
                 </div>
-
-                <div className="flex items-center p-3 bg-yellow-50 rounded">
-                  <div className="bg-yellow-600 p-2 rounded-full mr-3">
-                    <Settings className="text-white" size={16} />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">System update</p>
-                    <p className="text-xs text-gray-600">Platform maintenance completed - 1 day ago</p>
-                  </div>
-                </div>
+                <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-sm">
+                  New
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Quick Actions & System Status */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 hidden lg:block">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
-              <div className="space-y-3">
-                <Link to="/admin/manage-users" className="block w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
-                  Manage Users
-                </Link>
-                <Link to="/admin/system-settings" className="block w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
-                  System Settings
-                </Link>
-                <Link to="/admin/generate-reports" className="block w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
-                  Generate Reports
-                </Link>
-                <Link to="/admin/platform-analytics" className="block w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors text-center">
-                  Platform Analytics
-                </Link>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">System Status</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Database Status</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">All systems operational</p>
+                </div>
+                <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-sm">
+                  Online
+                </span>
               </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">System Status</h2>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Server Status</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Online</span>
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Server Performance</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">CPU: 45%, Memory: 62%</p>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Database</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-sm">Connected</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Active Users</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">234</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">System Load</span>
-                  <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-sm">Moderate</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Pending Approvals</h2>
-              <div className="space-y-3">
-                <div className="border-l-4 border-red-500 pl-3 py-2">
-                  <p className="text-sm text-gray-900">Teacher registration</p>
-                  <p className="text-xs text-gray-600">Dr. Williams - Awaiting approval</p>
-                </div>
-                <div className="border-l-4 border-yellow-500 pl-3 py-2">
-                  <p className="text-sm text-gray-900">Course modification</p>
-                  <p className="text-xs text-gray-600">Database Systems - Level change request</p>
-                </div>
-                <div className="border-l-4 border-blue-500 pl-3 py-2">
-                  <p className="text-sm text-gray-900">Student level upgrade</p>
-                  <p className="text-xs text-gray-600">5 students requesting level promotion</p>
-                </div>
+                <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full text-sm">
+                  Normal
+                </span>
               </div>
             </div>
           </div>
