@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users, Award, ArrowRight, GraduationCap, UserCheck, Shield } from 'lucide-react';
@@ -20,47 +19,46 @@ const Home = () => {
           backgroundRepeat: 'no-repeat'
         }}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6 animate-fade-in">
                 Welcome to <span className="text-amber-600">TSI</span>
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-100 mb-2 sm:mb-4 leading-relaxed font-medium">
+              <p className="text-xl sm:text-2xl text-gray-100 mb-2 sm:mb-4 leading-relaxed font-medium animate-fade-in">
                 Teacher-Student Interaction System
               </p>
-              <p className="text-lg sm:text-xl text-gray-100 mb-2 sm:mb-4 leading-relaxed">
+              <p className="text-lg sm:text-xl text-gray-100 mb-2 sm:mb-4 leading-relaxed animate-fade-in">
                 Computer Science Department - LASU
               </p>
-              <p className="text-base sm:text-lg text-gray-200 mb-6 sm:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+              <p className="text-base sm:text-lg text-gray-200 mb-6 sm:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-in">
                 Connect, collaborate, and excel together in our digital learning environment. 
                 Seamless level-based interaction between educators and students in Computer Science.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in">
                 <Link 
                   to="/signup" 
-                  className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg"
+                  className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg hover-scale"
                 >
                   Get Started <ArrowRight size={20} className="sm:w-6 sm:h-6" />
                 </Link>
                 <Link 
                   to="/about" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all shadow-lg"
+                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all shadow-lg hover-scale"
                 >
                   Learn More
                 </Link>
               </div>
             </div>
-            <div className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-sm lg:max-w-md bg-white/10 backdrop-blur-sm rounded-lg p-6 sm:p-8 shadow-2xl">
+            <div className="flex justify-center lg:justify-end animate-fade-in">
+              <div className="w-full max-w-sm lg:max-w-md bg-white/10 backdrop-blur-sm rounded-lg p-6 sm:p-8 shadow-2xl hover-scale">
                 <div className="text-center">
                   <img 
                     src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
                     alt="LASU Logo" 
                     className="h-24 w-24 sm:h-32 sm:w-32 mx-auto mb-4"
                   />
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2">LASU CS Department</h3>
+                  <h3 className="text-xl sm:text-2xl font-bold mb-2">LASU CSC Department</h3>
                   <p className="text-gray-100 text-sm sm:text-base">Excellence in Computer Science Education</p>
                 </div>
               </div>
@@ -70,11 +68,11 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-purple-50">
+      <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
+          <div className="text-center mb-12 sm:mb-16 animate-fade-in">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Empowering CS Education
+              Empowering CSC Education
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               TSI connects Computer Science students and faculty through level-based interaction
@@ -82,9 +80,9 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="bg-purple-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
-                <BookOpen className="text-purple-600" size={32} />
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover-scale animate-fade-in">
+              <div className="bg-blue-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
+                <BookOpen className="text-blue-600" size={32} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 text-center">Level-Based Learning</h3>
               <p className="text-gray-600 text-center leading-relaxed text-sm sm:text-base">
@@ -92,7 +90,7 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover-scale animate-fade-in">
               <div className="bg-green-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
                 <Users className="text-green-600" size={32} />
               </div>
@@ -102,13 +100,13 @@ const Home = () => {
               </p>
             </div>
 
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="bg-purple-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
-                <Award className="text-purple-600" size={32} />
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover-scale animate-fade-in">
+              <div className="bg-blue-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
+                <Award className="text-blue-600" size={32} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 text-center">Progress Tracking</h3>
               <p className="text-gray-600 text-center leading-relaxed text-sm sm:text-base">
-                Monitor your CS academic journey with personalized feedback from faculty.
+                Monitor your CSC academic journey with personalized feedback from faculty.
               </p>
             </div>
           </div>
@@ -118,9 +116,9 @@ const Home = () => {
       {/* User Types Section */}
       <section className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
+          <div className="text-center mb-12 sm:mb-16 animate-fade-in">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Join the CS Community
+              Join the CSC Community
             </h2>
             <p className="text-lg sm:text-xl text-gray-600">
               Choose your role and start your TSI journey
@@ -128,29 +126,29 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <div className="text-center group bg-gradient-to-br from-purple-50 to-purple-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300">
-              <div className="bg-purple-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+            <div className="text-center group bg-gradient-to-br from-blue-50 to-blue-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+              <div className="bg-blue-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <GraduationCap className="text-white" size={32} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Students</h3>
               <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                Access CS courses, submit programming assignments, and connect with instructors based on your level.
+                Access CSC courses, submit programming assignments, and connect with instructors based on your level.
               </p>
               <Link 
                 to="/signup" 
-                className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold transition-all transform hover:scale-105 text-sm sm:text-base"
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold transition-all transform hover:scale-105 text-sm sm:text-base"
               >
                 Join as Student
               </Link>
             </div>
 
-            <div className="text-center group bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300">
+            <div className="text-center group bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
               <div className="bg-green-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <UserCheck className="text-white" size={32} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Teachers</h3>
               <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                Create CS courses, manage student levels, grade programming assignments, and mentor students.
+                Create CSC courses, manage student levels, grade programming assignments, and mentor students.
               </p>
               <Link 
                 to="/signup" 
@@ -160,17 +158,17 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="text-center group bg-gradient-to-br from-purple-50 to-purple-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300">
-              <div className="bg-purple-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
+            <div className="text-center group bg-gradient-to-br from-amber-50 to-amber-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+              <div className="bg-amber-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <Shield className="text-white" size={32} />
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Admin</h3>
               <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
-                Oversee CS department operations, manage users by levels, and ensure smooth platform functioning.
+                Oversee CSC department operations, manage users by levels, and ensure smooth platform functioning.
               </p>
               <Link 
                 to="/signup" 
-                className="inline-block bg-purple-600 hover:bg-purple-700 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold transition-all transform hover:scale-105 text-sm sm:text-base"
+                className="inline-block bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg font-semibold transition-all transform hover:scale-105 text-sm sm:text-base"
               >
                 Admin Access
               </Link>
@@ -180,24 +178,24 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 text-white py-12 sm:py-20">
+      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white py-12 sm:py-20 animate-fade-in">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-            Ready to Transform Your CS Experience?
+            Ready to Transform Your CSC Experience?
           </h2>
-          <p className="text-lg sm:text-xl text-purple-100 mb-6 sm:mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-blue-100 mb-6 sm:mb-8 max-w-2xl mx-auto">
             Join Computer Science students and faculty already using TSI to enhance their educational journey.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
               to="/signup" 
-              className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all transform hover:scale-105 shadow-lg"
+              className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all transform hover:scale-105 shadow-lg hover-scale"
             >
               Create Account
             </Link>
             <Link 
               to="/login" 
-              className="border-2 border-white text-white hover:bg-white hover:text-purple-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all shadow-lg"
+              className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all shadow-lg hover-scale"
             >
               Sign In
             </Link>

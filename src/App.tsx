@@ -19,6 +19,18 @@ import SubmitAssignment from "./pages/student/SubmitAssignment";
 import MessageTeacher from "./pages/student/MessageTeacher";
 import ViewGrades from "./pages/student/ViewGrades";
 
+// Teacher pages
+import CreateAssignment from "./pages/teacher/CreateAssignment";
+import GradeSubmissions from "./pages/teacher/GradeSubmissions";
+import ScheduleConsultation from "./pages/teacher/ScheduleConsultation";
+import ViewAnalytics from "./pages/teacher/ViewAnalytics";
+
+// Admin pages
+import ManageUsers from "./pages/admin/ManageUsers";
+import SystemSettings from "./pages/admin/SystemSettings";
+import GenerateReports from "./pages/admin/GenerateReports";
+import PlatformAnalytics from "./pages/admin/PlatformAnalytics";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -41,6 +53,18 @@ const App = () => (
           <Route path="/student/submit-assignment" element={<SubmitAssignment />} />
           <Route path="/student/message-teacher" element={<MessageTeacher />} />
           <Route path="/student/view-grades" element={<ViewGrades />} />
+          
+          {/* Teacher routes */}
+          <Route path="/teacher/create-assignment" element={<CreateAssignment />} />
+          <Route path="/teacher/grade-submissions" element={<GradeSubmissions />} />
+          <Route path="/teacher/schedule-consultation" element={<ScheduleConsultation />} />
+          <Route path="/teacher/view-analytics" element={<ViewAnalytics />} />
+          
+          {/* Admin routes */}
+          <Route path="/admin/manage-users" element={<ManageUsers />} />
+          <Route path="/admin/system-settings" element={<SystemSettings />} />
+          <Route path="/admin/generate-reports" element={<GenerateReports />} />
+          <Route path="/admin/platform-analytics" element={<PlatformAnalytics />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
