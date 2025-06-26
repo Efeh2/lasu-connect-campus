@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users, Award, ArrowRight, GraduationCap, UserCheck, Shield } from 'lucide-react';
@@ -127,12 +126,12 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <div className="text-center group bg-gradient-to-br from-blue-50 to-blue-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+            <div className="text-center group bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-50 dark:to-blue-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
               <div className="bg-blue-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <GraduationCap className="text-white" size={32} />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-black mb-3 sm:mb-4">Students</h3>
-              <p className="text-gray-600 dark:text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:!text-black mb-3 sm:mb-4">Students</h3>
+              <p className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                 Access CSC courses, submit programming assignments, and connect with instructors based on your level.
               </p>
               <Link 
@@ -143,12 +142,12 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="text-center group bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+            <div className="text-center group bg-gradient-to-br from-green-50 to-green-100 dark:from-green-50 dark:to-green-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
               <div className="bg-green-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <UserCheck className="text-white" size={32} />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-black mb-3 sm:mb-4">Teachers</h3>
-              <p className="text-gray-600 dark:text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:!text-black mb-3 sm:mb-4">Teachers</h3>
+              <p className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                 Create CSC courses, manage student levels, grade programming assignments, and mentor students.
               </p>
               <Link 
@@ -159,12 +158,12 @@ const Home = () => {
               </Link>
             </div>
 
-            <div className="text-center group bg-gradient-to-br from-amber-50 to-amber-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
+            <div className="text-center group bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-50 dark:to-amber-100 p-6 sm:p-8 rounded-2xl hover:shadow-xl transition-all duration-300 hover-scale animate-fade-in">
               <div className="bg-amber-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                 <Shield className="text-white" size={32} />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-black mb-3 sm:mb-4">Admin</h3>
-              <p className="text-gray-600 dark:text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:!text-black mb-3 sm:mb-4">Admin</h3>
+              <p className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                 Oversee CSC department operations, manage users by levels, and ensure smooth platform functioning.
               </p>
               <Link 
