@@ -32,31 +32,31 @@ const About = () => {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-white to-purple-50">
+      <section className="py-12 sm:py-20 bg-gradient-to-br from-white to-purple-50 dark:from-white dark:to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 sm:p-10 rounded-2xl shadow-xl">
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-50 dark:to-purple-100 p-6 sm:p-10 rounded-2xl shadow-xl">
               <div className="flex items-center mb-4 sm:mb-6">
                 <div className="bg-purple-600 p-3 rounded-lg mr-4">
                   <Target className="text-white" size={32} />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Our Mission</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:!text-black">Our Mission</h2>
               </div>
-              <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+              <p className="text-gray-700 dark:!text-black text-base sm:text-lg leading-relaxed">
                 To revolutionize Computer Science education at LASU by providing 
                 a comprehensive digital platform that facilitates level-based communication, 
                 collaboration, and learning between students, teachers, and administrators.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-10 rounded-2xl shadow-xl">
+            <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-50 dark:to-green-100 p-6 sm:p-10 rounded-2xl shadow-xl">
               <div className="flex items-center mb-4 sm:mb-6">
                 <div className="bg-green-600 p-3 rounded-lg mr-4">
                   <Eye className="text-white" size={32} />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Our Vision</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:!text-black">Our Vision</h2>
               </div>
-              <p className="text-gray-700 text-base sm:text-lg leading-relaxed">
+              <p className="text-gray-700 dark:!text-black text-base sm:text-lg leading-relaxed">
                 To become the leading educational technology platform for Computer Science departments, 
                 empowering universities across Nigeria to deliver world-class CS education 
                 through innovative level-based digital solutions.
@@ -67,74 +67,74 @@ const About = () => {
       </section>
 
       {/* Key Features */}
-      <section className="py-12 sm:py-20 bg-white">
+      <section className="py-12 sm:py-20 bg-white dark:bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:!text-black mb-4 sm:mb-6">
               What Makes TSI Special
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+            <p className="text-lg sm:text-xl text-gray-600 dark:!text-black max-w-3xl mx-auto px-4">
               Our platform is designed specifically for Computer Science education with level-based interactions
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-50 dark:to-purple-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="bg-purple-600 p-3 rounded-lg w-fit mb-4">
                 <BookOpen className="text-white" size={32} />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Level-Based Learning</h3>
-              <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:!text-black mb-3">Level-Based Learning</h3>
+              <p className="text-gray-600 dark:!text-black leading-relaxed text-sm sm:text-base">
                 Engage with content and peers appropriate to your academic level in Computer Science.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-50 dark:to-green-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="bg-green-600 p-3 rounded-lg w-fit mb-4">
                 <Users className="text-white" size={32} />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Smart Networking</h3>
-              <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:!text-black mb-3">Smart Networking</h3>
+              <p className="text-gray-600 dark:!text-black leading-relaxed text-sm sm:text-base">
                 Connect with students and faculty at your level for meaningful academic interactions.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-50 dark:to-purple-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="bg-purple-600 p-3 rounded-lg w-fit mb-4">
                 <Zap className="text-white" size={32} />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Real-time Updates</h3>
-              <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:!text-black mb-3">Real-time Updates</h3>
+              <p className="text-gray-600 dark:!text-black leading-relaxed text-sm sm:text-base">
                 Stay informed with instant notifications about assignments and announcements.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 dark:from-yellow-50 dark:to-yellow-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="bg-yellow-600 p-3 rounded-lg w-fit mb-4">
                 <Award className="text-white" size={32} />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Progress Tracking</h3>
-              <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:!text-black mb-3">Progress Tracking</h3>
+              <p className="text-gray-600 dark:!text-black leading-relaxed text-sm sm:text-base">
                 Monitor academic performance with detailed analytics and personalized feedback.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-red-50 to-red-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-50 dark:to-red-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="bg-red-600 p-3 rounded-lg w-fit mb-4">
                 <Target className="text-white" size={32} />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Goal Management</h3>
-              <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:!text-black mb-3">Goal Management</h3>
+              <p className="text-gray-600 dark:!text-black leading-relaxed text-sm sm:text-base">
                 Set and track learning objectives with integrated planning tools and milestones.
               </p>
             </div>
 
-            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-50 dark:to-indigo-100 p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
               <div className="bg-indigo-600 p-3 rounded-lg w-fit mb-4">
                 <Users className="text-white" size={32} />
               </div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3">Multi-role Support</h3>
-              <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:!text-black mb-3">Multi-role Support</h3>
+              <p className="text-gray-600 dark:!text-black leading-relaxed text-sm sm:text-base">
                 Tailored experiences for students, teachers, and administrators with level-specific features.
               </p>
             </div>
@@ -143,36 +143,36 @@ const About = () => {
       </section>
 
       {/* About LASU CS */}
-      <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-purple-50">
+      <section className="py-12 sm:py-20 bg-gradient-to-br from-gray-50 to-purple-50 dark:from-gray-50 dark:to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:!text-black mb-4 sm:mb-6">
                 Computer Science at LASU
               </h2>
-              <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-700 dark:!text-black mb-4 sm:mb-6 leading-relaxed">
                 The Computer Science Department at Lagos State University has been at the forefront of 
                 technological education since its establishment. We are committed to producing 
                 world-class computer scientists and software engineers.
               </p>
-              <p className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-700 dark:!text-black mb-4 sm:mb-6 leading-relaxed">
                 TSI represents our commitment to embracing modern educational technology, 
                 ensuring that our students and faculty have access to level-appropriate tools 
                 that enhance the learning experience for the digital age.
               </p>
               <div className="grid grid-cols-2 gap-4 sm:gap-6">
-                <div className="text-center bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-                  <div className="text-2xl sm:text-3xl font-bold text-purple-600 mb-2">500+</div>
-                  <div className="text-gray-600 text-sm sm:text-base">CS Students</div>
+                <div className="text-center bg-white dark:bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+                  <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:!text-black mb-2">500+</div>
+                  <div className="text-gray-600 dark:!text-black text-sm sm:text-base">CS Students</div>
                 </div>
-                <div className="text-center bg-white p-4 sm:p-6 rounded-xl shadow-lg">
-                  <div className="text-2xl sm:text-3xl font-bold text-purple-600 mb-2">50+</div>
-                  <div className="text-gray-600 text-sm sm:text-base">Faculty Members</div>
+                <div className="text-center bg-white dark:bg-white p-4 sm:p-6 rounded-xl shadow-lg">
+                  <div className="text-2xl sm:text-3xl font-bold text-purple-600 dark:!text-black mb-2">50+</div>
+                  <div className="text-gray-600 dark:!text-black text-sm sm:text-base">Faculty Members</div>
                 </div>
               </div>
             </div>
             <div className="lg:text-right">
-              <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-2xl">
+              <div className="bg-white dark:bg-white p-6 sm:p-8 rounded-2xl shadow-2xl">
                 <img 
                   src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
                   alt="LASU Logo" 
