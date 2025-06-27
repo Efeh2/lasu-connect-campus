@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users, Award, ArrowRight, GraduationCap, UserCheck, Shield } from 'lucide-react';
@@ -21,7 +22,20 @@ const Home = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="text-left">
+            <div className="flex justify-center lg:justify-start animate-fade-in lg:order-2">
+              <div className="w-full max-w-sm lg:max-w-md bg-white/10 backdrop-blur-sm rounded-lg p-6 sm:p-8 shadow-2xl hover-scale">
+                <div className="text-center">
+                  <img 
+                    src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
+                    alt="LASU Logo" 
+                    className="h-24 w-24 sm:h-32 sm:w-32 mx-auto mb-4"
+                  />
+                  <h3 className="text-xl sm:text-2xl font-bold mb-2 text-white">LASU CSC Department</h3>
+                  <p className="text-amber-100 text-sm sm:text-base">Excellence in Computer Science Education</p>
+                </div>
+              </div>
+            </div>
+            <div className="text-left lg:order-1">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6 animate-fade-in text-white">
                 Welcome to <span className="text-amber-400">TSI</span>
               </h1>
@@ -48,19 +62,6 @@ const Home = () => {
                 >
                   Learn More
                 </Link>
-              </div>
-            </div>
-            <div className="flex justify-center lg:justify-end animate-fade-in">
-              <div className="w-full max-w-sm lg:max-w-md bg-white/10 backdrop-blur-sm rounded-lg p-6 sm:p-8 shadow-2xl hover-scale">
-                <div className="text-center">
-                  <img 
-                    src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
-                    alt="LASU Logo" 
-                    className="h-24 w-24 sm:h-32 sm:w-32 mx-auto mb-4"
-                  />
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2 text-white">LASU CSC Department</h3>
-                  <p className="text-amber-100 text-sm sm:text-base">Excellence in Computer Science Education</p>
-                </div>
               </div>
             </div>
           </div>
