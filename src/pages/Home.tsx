@@ -21,7 +21,7 @@ const Home = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="text-center lg:text-left">
+            <div className="text-left">
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6 animate-fade-in text-white">
                 Welcome to <span className="text-amber-400">TSI</span>
               </h1>
@@ -31,11 +31,11 @@ const Home = () => {
               <p className="text-lg sm:text-xl text-amber-100 mb-2 sm:mb-4 leading-relaxed animate-fade-in">
                 Computer Science Department - LASU
               </p>
-              <p className="text-base sm:text-lg text-gray-100 mb-6 sm:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0 animate-fade-in">
+              <p className="text-base sm:text-lg text-gray-100 mb-6 sm:mb-8 leading-relaxed max-w-lg animate-fade-in">
                 Connect, collaborate, and excel together in our digital learning environment. 
                 Seamless level-based interaction between educators and students in Computer Science.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-in">
+              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
                 <Link 
                   to="/signup" 
                   className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg hover-scale"
