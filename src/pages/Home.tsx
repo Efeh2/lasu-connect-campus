@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users, Award, ArrowRight, GraduationCap, UserCheck, Shield } from 'lucide-react';
@@ -21,9 +22,10 @@ const Home = () => {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="flex justify-center lg:justify-start animate-fade-in lg:order-2">
-              <div className="w-full max-w-sm lg:max-w-md bg-white/10 backdrop-blur-sm rounded-lg p-6 sm:p-8 shadow-2xl hover-scale">
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+            {/* Logo Section */}
+            <div className="flex-shrink-0 animate-fade-in">
+              <div className="w-full max-w-xs bg-white/10 backdrop-blur-sm rounded-lg p-6 shadow-2xl hover-scale">
                 <div className="text-center">
                   <img 
                     src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
@@ -35,33 +37,42 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="text-left lg:order-1">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 sm:mb-6 animate-fade-in text-white">
-                Welcome to <span className="text-amber-400">TSI</span>
-              </h1>
-              <p className="text-xl sm:text-2xl text-amber-100 mb-2 sm:mb-4 leading-relaxed font-medium animate-fade-in">
-                Teacher-Student Interaction System
-              </p>
-              <p className="text-lg sm:text-xl text-amber-100 mb-2 sm:mb-4 leading-relaxed animate-fade-in">
-                Computer Science Department - LASU
-              </p>
-              <p className="text-base sm:text-lg text-gray-100 mb-6 sm:mb-8 leading-relaxed max-w-lg animate-fade-in">
-                Connect, collaborate, and excel together in our digital learning environment. 
-                Seamless level-based interaction between educators and students in Computer Science.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in">
-                <Link 
-                  to="/signup" 
-                  className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg hover-scale"
-                >
-                  Get Started <ArrowRight size={20} className="sm:w-6 sm:h-6" />
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all shadow-lg hover-scale"
-                >
-                  Learn More
-                </Link>
+
+            {/* Message Space */}
+            <div className="flex-1 bg-white/5 backdrop-blur-sm rounded-lg p-6 lg:p-8 shadow-xl animate-fade-in">
+              <div className="text-center lg:text-left">
+                <div className="bg-amber-500/20 border border-amber-400/30 rounded-lg p-4 mb-6">
+                  <p className="text-amber-100 text-sm sm:text-base font-medium">
+                    🎓 Welcome to the future of Computer Science education at LASU
+                  </p>
+                </div>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 text-white">
+                  Welcome to <span className="text-amber-400">TSI</span>
+                </h1>
+                <p className="text-xl sm:text-2xl text-amber-100 mb-2 sm:mb-4 leading-relaxed font-medium">
+                  Teacher-Student Interaction System
+                </p>
+                <p className="text-lg sm:text-xl text-amber-100 mb-2 sm:mb-4 leading-relaxed">
+                  Computer Science Department - LASU
+                </p>
+                <p className="text-base sm:text-lg text-gray-100 mb-6 sm:mb-8 leading-relaxed max-w-2xl">
+                  Connect, collaborate, and excel together in our digital learning environment. 
+                  Seamless level-based interaction between educators and students in Computer Science.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link 
+                    to="/signup" 
+                    className="bg-amber-600 hover:bg-amber-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-lg hover-scale"
+                  >
+                    Get Started <ArrowRight size={20} className="sm:w-6 sm:h-6" />
+                  </Link>
+                  <Link 
+                    to="/about" 
+                    className="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg transition-all shadow-lg hover-scale"
+                  >
+                    Learn More
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -210,3 +221,4 @@ const Home = () => {
 };
 
 export default Home;
+
