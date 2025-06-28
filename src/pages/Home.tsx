@@ -51,7 +51,7 @@ const Home = () => {
                       Get Started <ArrowRight size={20} className="sm:w-6 sm:h-6" />
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="lg" className="border-2 border-white text-black dark:text-white hover:bg-white hover:text-gray-900 shadow-lg">
+                  <Button asChild variant="outline" size="lg" className="border-2 border-white text-white dark:text-white hover:bg-white hover:text-gray-900 shadow-lg">
                     <Link to="/about">
                       Learn More
                     </Link>
@@ -209,7 +209,7 @@ const Home = () => {
                 Create Account
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-900 shadow-lg">
+            <Button asChild variant="outline" size="lg" className="border-2 border-white text-black dark:text-white hover:bg-white hover:text-blue-900 shadow-lg">
               <Link to="/login">
                 Sign In
               </Link>

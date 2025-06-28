@@ -20,6 +20,7 @@ import JoinStudyGroup from "./pages/student/JoinStudyGroup";
 import SubmitAssignment from "./pages/student/SubmitAssignment";
 import MessageTeacher from "./pages/student/MessageTeacher";
 import ViewGrades from "./pages/student/ViewGrades";
+import StudentMessages from "./pages/student/Messages";
 
 // Teacher pages
 import CreateAssignment from "./pages/teacher/CreateAssignment";
@@ -27,6 +28,7 @@ import GradeSubmissions from "./pages/teacher/GradeSubmissions";
 import ScheduleConsultation from "./pages/teacher/ScheduleConsultation";
 import ViewAnalytics from "./pages/teacher/ViewAnalytics";
 import AddCourse from "./pages/teacher/AddCourse";
+import TeacherMessages from "./pages/teacher/Messages";
 
 // Admin pages
 import ManageUsers from "./pages/admin/ManageUsers";
@@ -59,6 +61,7 @@ const App = () => (
               <Route path="/student/submit-assignment" element={<SubmitAssignment />} />
               <Route path="/student/message-teacher" element={<MessageTeacher />} />
               <Route path="/student/view-grades" element={<ViewGrades />} />
+              <Route path="/student/messages" element={<StudentMessages />} />
               
               {/* Teacher routes */}
               <Route path="/teacher/create-assignment" element={<CreateAssignment />} />
@@ -66,6 +69,7 @@ const App = () => (
               <Route path="/teacher/schedule-consultation" element={<ScheduleConsultation />} />
               <Route path="/teacher/view-analytics" element={<ViewAnalytics />} />
               <Route path="/teacher/add-course" element={<AddCourse />} />
+              <Route path="/teacher/messages" element={<TeacherMessages />} />
               
               {/* Admin routes */}
               <Route path="/admin/manage-users" element={<ManageUsers />} />
