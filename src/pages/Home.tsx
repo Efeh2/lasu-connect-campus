@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { BookOpen, Users, Award, ArrowRight, GraduationCap, UserCheck, Shield } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import { EnhancedButton } from '../components/ui/enhanced-button';
-import { EnhancedCard, EnhancedCardHeader, EnhancedCardContent, EnhancedCardTitle, EnhancedCardDescription } from '../components/ui/enhanced-card';
+import { Button } from '../components/ui/button';
+import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '../components/ui/card';
 
 const Home = () => {
   return (
@@ -46,28 +46,16 @@ const Home = () => {
                   Seamless level-based interaction between educators and students in Computer Science.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <EnhancedButton 
-                    asChild
-                    variant="gradient"
-                    size="lg"
-                    animation="scale"
-                    className="shadow-lg"
-                  >
+                  <Button asChild size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl">
                     <Link to="/signup">
                       Get Started <ArrowRight size={20} className="sm:w-6 sm:h-6" />
                     </Link>
-                  </EnhancedButton>
-                  <EnhancedButton 
-                    asChild
-                    variant="outline"
-                    size="lg"
-                    animation="scale"
-                    className="border-2 border-white text-white hover:bg-white hover:text-gray-900 shadow-lg"
-                  >
+                  </Button>
+                  <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-gray-900 shadow-lg">
                     <Link to="/about">
                       Learn More
                     </Link>
-                  </EnhancedButton>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -88,47 +76,47 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <EnhancedCard hover animated className="transform hover:-translate-y-2 animate-fade-in">
-              <EnhancedCardHeader>
+            <Card className="transform hover:-translate-y-2 animate-fade-in transition-all duration-300 hover:shadow-lg">
+              <CardHeader>
                 <div className="bg-blue-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
                   <BookOpen className="text-blue-600" size={32} />
                 </div>
-                <EnhancedCardTitle className="text-center">Level-Based Learning</EnhancedCardTitle>
-              </EnhancedCardHeader>
-              <EnhancedCardContent>
-                <EnhancedCardDescription className="text-center leading-relaxed text-sm sm:text-base">
+                <CardTitle className="text-center">Level-Based Learning</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-center leading-relaxed text-sm sm:text-base">
                   Engage in programming discussions and access course materials tailored to your academic level.
-                </EnhancedCardDescription>
-              </EnhancedCardContent>
-            </EnhancedCard>
+                </CardDescription>
+              </CardContent>
+            </Card>
 
-            <EnhancedCard hover animated className="transform hover:-translate-y-2 animate-fade-in">
-              <EnhancedCardHeader>
+            <Card className="transform hover:-translate-y-2 animate-fade-in transition-all duration-300 hover:shadow-lg">
+              <CardHeader>
                 <div className="bg-green-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
                   <Users className="text-green-600" size={32} />
                 </div>
-                <EnhancedCardTitle className="text-center">Smart Communication</EnhancedCardTitle>
-              </EnhancedCardHeader>
-              <EnhancedCardContent>
-                <EnhancedCardDescription className="text-center leading-relaxed text-sm sm:text-base">
+                <CardTitle className="text-center">Smart Communication</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-center leading-relaxed text-sm sm:text-base">
                   Connect with professors and peers based on your specific level in Computer Science.
-                </EnhancedCardDescription>
-              </EnhancedCardContent>
-            </EnhancedCard>
+                </CardDescription>
+              </CardContent>
+            </Card>
 
-            <EnhancedCard hover animated className="transform hover:-translate-y-2 animate-fade-in">
-              <EnhancedCardHeader>
+            <Card className="transform hover:-translate-y-2 animate-fade-in transition-all duration-300 hover:shadow-lg">
+              <CardHeader>
                 <div className="bg-blue-100 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 mx-auto">
                   <Award className="text-blue-600" size={32} />
                 </div>
-                <EnhancedCardTitle className="text-center">Progress Tracking</EnhancedCardTitle>
-              </EnhancedCardHeader>
-              <EnhancedCardContent>
-                <EnhancedCardDescription className="text-center leading-relaxed text-sm sm:text-base">
+                <CardTitle className="text-center">Progress Tracking</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-center leading-relaxed text-sm sm:text-base">
                   Monitor your CSC academic journey with personalized feedback from faculty.
-                </EnhancedCardDescription>
-              </EnhancedCardContent>
-            </EnhancedCard>
+                </CardDescription>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -146,77 +134,62 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            <EnhancedCard hover animated className="text-center group bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-50 dark:to-blue-100 animate-fade-in">
-              <EnhancedCardHeader>
+            <Card className="text-center group bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-50 dark:to-blue-100 animate-fade-in hover:shadow-lg transition-all duration-300">
+              <CardHeader>
                 <div className="bg-blue-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                   <GraduationCap className="text-white" size={32} />
                 </div>
-                <EnhancedCardTitle className="text-gray-900 dark:!text-black">Students</EnhancedCardTitle>
-              </EnhancedCardHeader>
-              <EnhancedCardContent>
-                <EnhancedCardDescription className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+                <CardTitle className="text-gray-900 dark:!text-black">Students</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                   Access CSC courses, submit programming assignments, and connect with instructors based on your level.
-                </EnhancedCardDescription>
-                <EnhancedButton 
-                  asChild
-                  variant="default"
-                  animation="scale"
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
-                >
+                </CardDescription>
+                <Button asChild className="bg-blue-600 hover:bg-blue-700 text-white">
                   <Link to="/signup">
                     Join as Student
                   </Link>
-                </EnhancedButton>
-              </EnhancedCardContent>
-            </EnhancedCard>
+                </Button>
+              </CardContent>
+            </Card>
 
-            <EnhancedCard hover animated className="text-center group bg-gradient-to-br from-green-50 to-green-100 dark:from-green-50 dark:to-green-100 animate-fade-in">
-              <EnhancedCardHeader>
+            <Card className="text-center group bg-gradient-to-br from-green-50 to-green-100 dark:from-green-50 dark:to-green-100 animate-fade-in hover:shadow-lg transition-all duration-300">
+              <CardHeader>
                 <div className="bg-green-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                   <UserCheck className="text-white" size={32} />
                 </div>
-                <EnhancedCardTitle className="text-gray-900 dark:!text-black">Teachers</EnhancedCardTitle>
-              </EnhancedCardHeader>
-              <EnhancedCardContent>
-                <EnhancedCardDescription className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+                <CardTitle className="text-gray-900 dark:!text-black">Teachers</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                   Create CSC courses, manage student levels, grade programming assignments, and mentor students.
-                </EnhancedCardDescription>
-                <EnhancedButton 
-                  asChild
-                  variant="default"
-                  animation="scale"
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                >
+                </CardDescription>
+                <Button asChild className="bg-green-600 hover:bg-green-700 text-white">
                   <Link to="/signup">
                     Join as Teacher
                   </Link>
-                </EnhancedButton>
-              </EnhancedCardContent>
-            </EnhancedCard>
+                </Button>
+              </CardContent>
+            </Card>
 
-            <EnhancedCard hover animated className="text-center group bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-50 dark:to-amber-100 animate-fade-in">
-              <EnhancedCardHeader>
+            <Card className="text-center group bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-50 dark:to-amber-100 animate-fade-in hover:shadow-lg transition-all duration-300">
+              <CardHeader>
                 <div className="bg-amber-600 w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform">
                   <Shield className="text-white" size={32} />
                 </div>
-                <EnhancedCardTitle className="text-gray-900 dark:!text-black">Admin</EnhancedCardTitle>
-              </EnhancedCardHeader>
-              <EnhancedCardContent>
-                <EnhancedCardDescription className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
+                <CardTitle className="text-gray-900 dark:!text-black">Admin</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-600 dark:!text-black mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                   Oversee CSC department operations, manage users by levels, and ensure smooth platform functioning.
-                </EnhancedCardDescription>
-                <EnhancedButton 
-                  asChild
-                  variant="default"
-                  animation="scale"
-                  className="bg-amber-600 hover:bg-amber-700 text-white"
-                >
+                </CardDescription>
+                <Button asChild className="bg-amber-600 hover:bg-amber-700 text-white">
                   <Link to="/signup">
                     Admin Access
                   </Link>
-                </EnhancedButton>
-              </EnhancedCardContent>
-            </EnhancedCard>
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
@@ -231,28 +204,16 @@ const Home = () => {
             Join Computer Science students and faculty already using TSI to enhance their educational journey.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <EnhancedButton 
-              asChild
-              variant="gradient"
-              size="lg"
-              animation="scale"
-              className="bg-amber-600 hover:bg-amber-700 text-white shadow-lg"
-            >
+            <Button asChild size="lg" className="bg-amber-600 hover:bg-amber-700 text-white shadow-lg">
               <Link to="/signup">
                 Create Account
               </Link>
-            </EnhancedButton>
-            <EnhancedButton 
-              asChild
-              variant="outline"
-              size="lg"
-              animation="scale"
-              className="border-2 border-white text-white hover:bg-white hover:text-blue-900 shadow-lg"
-            >
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-2 border-white text-white hover:bg-white hover:text-blue-900 shadow-lg">
               <Link to="/login">
                 Sign In
               </Link>
-            </EnhancedButton>
+            </Button>
           </div>
         </div>
       </section>
