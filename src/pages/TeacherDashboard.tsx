@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -43,6 +44,15 @@ const TeacherDashboard = () => {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Teacher Dashboard</h1>
           </div>
           <div className="flex items-center space-x-4">
+            <Link 
+              to="/teacher/messages" 
+              className="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors relative"
+            >
+              <MessageSquare size={24} />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                5
+              </span>
+            </Link>
             <UserAvatar name="Dr. Smith" role="teacher" />
             <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
               Home
