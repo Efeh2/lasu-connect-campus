@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Users, Award, ArrowRight, GraduationCap, UserCheck, Shield } from 'lucide-react';
@@ -22,28 +20,13 @@ const Home = () => {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 w-full relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-            {/* Logo Section */}
-            <div className="flex-shrink-0 animate-fade-in">
-              <div className="w-full max-w-xs bg-white/10 backdrop-blur-sm rounded-lg p-6 shadow-2xl hover-scale">
-                <div className="text-center">
-                  <img 
-                    src="/lovable-uploads/246bd794-2724-4037-8e0a-fe4845c23298.png" 
-                    alt="LASU Logo" 
-                    className="h-24 w-24 sm:h-32 sm:w-32 mx-auto mb-4"
-                  />
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2 text-white">LASU CSC Department</h3>
-                  <p className="text-amber-100 text-sm sm:text-base">Excellence in Computer Science Education</p>
-                </div>
-              </div>
-            </div>
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             {/* Message Space */}
             <div className="flex-1 bg-white/5 backdrop-blur-sm rounded-lg p-6 lg:p-8 shadow-xl animate-fade-in">
-              <div className="text-center lg:text-left">
+              <div className="text-left">
                 <div className="bg-amber-500/20 border border-amber-400/30 rounded-lg p-4 mb-6">
                   <p className="text-amber-100 text-sm sm:text-base font-medium">
-                    🎓 Welcome to the future of Computer Science education at LASU
+                    🚀 Welcome to the future of Computer Science in LASU
                   </p>
                 </div>
                 <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-4 sm:mb-6 text-white">
@@ -84,7 +67,7 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16 animate-fade-in">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
-              Empowering CSC Education
+              Empowering CSC
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               TSI connects Computer Science students and faculty through level-based interaction
@@ -221,4 +204,3 @@ const Home = () => {
 };
 
 export default Home;
-
