@@ -1,5 +1,8 @@
 
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { User as SupabaseUser, Session } from '@supabase/supabase-js';
+import { useToast } from '@/components/ui/use-toast';
 
 export interface User {
   id: string;
@@ -9,6 +12,10 @@ export interface User {
   level?: string;
   avatar?: string;
   isOnline: boolean;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  studentId?: string;
 }
 
 interface UserState {
@@ -16,22 +23,25 @@ interface UserState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  session: Session | null;
 }
 
 type UserAction =
   | { type: 'LOGIN_START' }
-  | { type: 'LOGIN_SUCCESS'; payload: User }
+  | { type: 'LOGIN_SUCCESS'; payload: { user: User; session: Session } }
   | { type: 'LOGIN_FAILURE'; payload: string }
   | { type: 'LOGOUT' }
   | { type: 'UPDATE_USER'; payload: Partial<User> }
   | { type: 'SET_ONLINE_STATUS'; payload: boolean }
-  | { type: 'CLEAR_ERROR' };
+  | { type: 'CLEAR_ERROR' }
+  | { type: 'SET_LOADING'; payload: boolean };
 
 const initialState: UserState = {
   user: null,
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
   error: null,
+  session: null,
 };
 
 const userReducer = (state: UserState, action: UserAction): UserState => {
@@ -43,7 +53,8 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
         ...state,
         isLoading: false,
         isAuthenticated: true,
-        user: action.payload,
+        user: action.payload.user,
+        session: action.payload.session,
         error: null,
       };
     case 'LOGIN_FAILURE':
@@ -52,6 +63,7 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
         isLoading: false,
         isAuthenticated: false,
         user: null,
+        session: null,
         error: action.payload,
       };
     case 'LOGOUT':
@@ -59,6 +71,7 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
         ...state,
         isAuthenticated: false,
         user: null,
+        session: null,
         error: null,
       };
     case 'UPDATE_USER':
@@ -73,51 +86,210 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
       };
     case 'CLEAR_ERROR':
       return { ...state, error: null };
+    case 'SET_LOADING':
+      return { ...state, isLoading: action.payload };
     default:
       return state;
   }
 };
 
 interface UserContextType extends UserState {
-  login: (email: string, password: string, userType: string, level?: string) => Promise<void>;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (userData: SignupData) => Promise<void>;
+  logout: () => Promise<void>;
   updateUser: (updates: Partial<User>) => void;
   setOnlineStatus: (isOnline: boolean) => void;
   clearError: () => void;
+}
+
+export interface SignupData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  studentId: string;
+  level: string;
+  password: string;
+  role: 'student' | 'teacher' | 'admin';
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
+  const { toast } = useToast();
 
-  const login = async (email: string, password: string, userType: string, level?: string) => {
+  // Helper function to transform Supabase user to our User type
+  const transformUser = (supabaseUser: SupabaseUser, profile: any): User => {
+    return {
+      id: supabaseUser.id,
+      email: supabaseUser.email || '',
+      name: profile?.first_name ? `${profile.first_name} ${profile.last_name || ''}`.trim() : supabaseUser.email?.split('@')[0] || '',
+      role: profile?.role || 'student',
+      level: profile?.level,
+      avatar: profile?.avatar_url,
+      isOnline: profile?.is_online || false,
+      firstName: profile?.first_name,
+      lastName: profile?.last_name,
+      phone: profile?.phone,
+      studentId: profile?.student_id,
+    };
+  };
+
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        console.log('Auth state changed:', event, session);
+        
+        if (session?.user) {
+          // Fetch user profile
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+          
+          const user = transformUser(session.user, profile);
+          dispatch({ 
+            type: 'LOGIN_SUCCESS', 
+            payload: { user, session } 
+          });
+        } else {
+          dispatch({ type: 'LOGOUT' });
+        }
+        
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single()
+          .then(({ data: profile }) => {
+            const user = transformUser(session.user, profile);
+            dispatch({ 
+              type: 'LOGIN_SUCCESS', 
+              payload: { user, session } 
+            });
+            dispatch({ type: 'SET_LOADING', payload: false });
+          });
+      } else {
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const signup = async (userData: SignupData) => {
     dispatch({ type: 'LOGIN_START' });
     
     try {
-      // Simulate API call - replace with actual authentication
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const redirectUrl = `${window.location.origin}/`;
       
-      const mockUser: User = {
-        id: Date.now().toString(),
-        email,
-        name: email.split('@')[0],
-        role: userType as 'student' | 'teacher' | 'admin',
-        level: userType === 'student' ? level : undefined,
-        isOnline: true,
-      };
-      
-      dispatch({ type: 'LOGIN_SUCCESS', payload: mockUser });
+      const { data, error } = await supabase.auth.signUp({
+        email: userData.email,
+        password: userData.password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            first_name: userData.firstName,
+            last_name: userData.lastName,
+            role: userData.role,
+            level: userData.level,
+            student_id: userData.studentId,
+            phone: userData.phone,
+          }
+        }
+      });
+
+      if (error) {
+        dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
+        toast({
+          title: "Signup Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (data.user && !data.session) {
+        toast({
+          title: "Check your email",
+          description: "Please check your email for a verification link to complete your signup.",
+        });
+      }
     } catch (error) {
-      dispatch({ 
-        type: 'LOGIN_FAILURE', 
-        payload: error instanceof Error ? error.message : 'Login failed' 
+      const errorMessage = error instanceof Error ? error.message : 'Signup failed';
+      dispatch({ type: 'LOGIN_FAILURE', payload: errorMessage });
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
       });
     }
   };
 
-  const logout = () => {
-    dispatch({ type: 'LOGOUT' });
+  const login = async (email: string, password: string) => {
+    dispatch({ type: 'LOGIN_START' });
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
+        toast({
+          title: "Login Failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // The auth state change listener will handle setting the user
+      toast({
+        title: "Welcome back!",
+        description: "You have been successfully logged in.",
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Login failed';
+      dispatch({ type: 'LOGIN_FAILURE', payload: errorMessage });
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        dispatch({ type: 'LOGOUT' });
+        toast({
+          title: "Logged out",
+          description: "You have been successfully logged out.",
+        });
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
   };
 
   const updateUser = (updates: Partial<User>) => {
@@ -136,6 +308,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <UserContext.Provider value={{
       ...state,
       login,
+      signup,
       logout,
       updateUser,
       setOnlineStatus,

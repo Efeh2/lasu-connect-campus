@@ -1,9 +1,12 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, Phone, BookOpen } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { useUser } from '../contexts/UserContext';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 
 const Signup = () => {
   const [userType, setUserType] = useState('student');
@@ -20,6 +23,10 @@ const Signup = () => {
     confirmPassword: ''
   });
 
+  const { signup, isLoading, error } = useUser();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -27,10 +34,42 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Signup attempt:', { userType, ...formData });
-    // Handle signup logic here
+    
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        title: "Password Mismatch",
+        description: "Passwords do not match. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      toast({
+        title: "Password Too Short",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      await signup({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        studentId: formData.studentId,
+        level: formData.level,
+        password: formData.password,
+        role: userType as 'student' | 'teacher' | 'admin',
+      });
+    } catch (error) {
+      console.error('Signup error:', error);
+    }
   };
 
   const levels = userType === 'student' 
@@ -56,6 +95,13 @@ const Signup = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Join TSI</h2>
               <p className="text-gray-600">Create your account to get started</p>
             </div>
+
+            {/* Display error if any */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
 
             {/* User Type Selection */}
             <div className="mb-6">
@@ -294,12 +340,13 @@ const Signup = () => {
                 </label>
               </div>
 
-              <button
+              <Button
                 type="submit"
-                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700"
+                disabled={isLoading}
+                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:opacity-50"
               >
-                Create {userType.charAt(0).toUpperCase() + userType.slice(1)} Account
-              </button>
+                {isLoading ? 'Creating Account...' : `Create ${userType.charAt(0).toUpperCase() + userType.slice(1)} Account`}
+              </Button>
             </form>
 
             {/* Footer */}

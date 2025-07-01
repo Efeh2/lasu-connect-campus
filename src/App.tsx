@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -8,6 +9,7 @@ import { NotificationProvider } from "./contexts/NotificationContext";
 import { UserProvider } from "./contexts/UserContext";
 import { AppSettingsProvider } from "./contexts/AppSettingsContext";
 import ErrorBoundary from "./components/ErrorBoundary";
+import AuthGuard from "./components/AuthGuard";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Login from "./pages/Login";
@@ -53,35 +55,37 @@ const App = () => (
                 <Sonner />
                 <BrowserRouter>
                   <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<AuthGuard><Home /></AuthGuard>} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/student-dashboard" element={<StudentDashboard />} />
-                    <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
-                    <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                    <Route path="/login" element={<AuthGuard><Login /></AuthGuard>} />
+                    <Route path="/signup" element={<AuthGuard><Signup /></AuthGuard>} />
                     
-                    {/* Student routes */}
-                    <Route path="/student/join-study-group" element={<JoinStudyGroup />} />
-                    <Route path="/student/submit-assignment" element={<SubmitAssignment />} />
-                    <Route path="/student/message-teacher" element={<MessageTeacher />} />
-                    <Route path="/student/view-grades" element={<ViewGrades />} />
-                    <Route path="/student/messages" element={<StudentMessages />} />
+                    {/* Protected Dashboard Routes */}
+                    <Route path="/student-dashboard" element={<AuthGuard requireAuth><StudentDashboard /></AuthGuard>} />
+                    <Route path="/teacher-dashboard" element={<AuthGuard requireAuth><TeacherDashboard /></AuthGuard>} />
+                    <Route path="/admin-dashboard" element={<AuthGuard requireAuth><AdminDashboard /></AuthGuard>} />
                     
-                    {/* Teacher routes */}
-                    <Route path="/teacher/create-assignment" element={<CreateAssignment />} />
-                    <Route path="/teacher/grade-submissions" element={<GradeSubmissions />} />
-                    <Route path="/teacher/schedule-consultation" element={<ScheduleConsultation />} />
-                    <Route path="/teacher/view-analytics" element={<ViewAnalytics />} />
-                    <Route path="/teacher/add-course" element={<AddCourse />} />
-                    <Route path="/teacher/messages" element={<TeacherMessages />} />
+                    {/* Protected Student routes */}
+                    <Route path="/student/join-study-group" element={<AuthGuard requireAuth><JoinStudyGroup /></AuthGuard>} />
+                    <Route path="/student/submit-assignment" element={<AuthGuard requireAuth><SubmitAssignment /></AuthGuard>} />
+                    <Route path="/student/message-teacher" element={<AuthGuard requireAuth><MessageTeacher /></AuthGuard>} />
+                    <Route path="/student/view-grades" element={<AuthGuard requireAuth><ViewGrades /></AuthGuard>} />
+                    <Route path="/student/messages" element={<AuthGuard requireAuth><StudentMessages /></AuthGuard>} />
                     
-                    {/* Admin routes */}
-                    <Route path="/admin/manage-users" element={<ManageUsers />} />
-                    <Route path="/admin/system-settings" element={<SystemSettings />} />
-                    <Route path="/admin/generate-reports" element={<GenerateReports />} />
-                    <Route path="/admin/platform-analytics" element={<PlatformAnalytics />} />
-                    <Route path="/admin/add-user" element={<AddUser />} />
+                    {/* Protected Teacher routes */}
+                    <Route path="/teacher/create-assignment" element={<AuthGuard requireAuth><CreateAssignment /></AuthGuard>} />
+                    <Route path="/teacher/grade-submissions" element={<AuthGuard requireAuth><GradeSubmissions /></AuthGuard>} />
+                    <Route path="/teacher/schedule-consultation" element={<AuthGuard requireAuth><ScheduleConsultation /></AuthGuard>} />
+                    <Route path="/teacher/view-analytics" element={<AuthGuard requireAuth><ViewAnalytics /></AuthGuard>} />
+                    <Route path="/teacher/add-course" element={<AuthGuard requireAuth><AddCourse /></AuthGuard>} />
+                    <Route path="/teacher/messages" element={<AuthGuard requireAuth><TeacherMessages /></AuthGuard>} />
+                    
+                    {/* Protected Admin routes */}
+                    <Route path="/admin/manage-users" element={<AuthGuard requireAuth><ManageUsers /></AuthGuard>} />
+                    <Route path="/admin/system-settings" element={<AuthGuard requireAuth><SystemSettings /></AuthGuard>} />
+                    <Route path="/admin/generate-reports" element={<AuthGuard requireAuth><GenerateReports /></AuthGuard>} />
+                    <Route path="/admin/platform-analytics" element={<AuthGuard requireAuth><PlatformAnalytics /></AuthGuard>} />
+                    <Route path="/admin/add-user" element={<AuthGuard requireAuth><AddUser /></AuthGuard>} />
                     
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                     <Route path="*" element={<NotFound />} />
