@@ -15,32 +15,29 @@ const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
 
   useEffect(() => {
     if (!isLoading) {
+      const currentPath = window.location.pathname;
+      
       if (requireAuth && !isAuthenticated) {
         // Redirect to login if authentication is required but user is not logged in
         navigate('/login');
-      } else if (isAuthenticated && user) {
-        // Only redirect authenticated users from login/signup pages, not from home
-        const currentPath = window.location.pathname;
-        
-        // Only redirect if on login or signup pages
-        if (currentPath === '/login' || currentPath === '/signup') {
-          switch (user.role) {
-            case 'student':
-              navigate('/student-dashboard');
-              break;
-            case 'teacher':
-              navigate('/teacher-dashboard');
-              break;
-            case 'admin':
-              navigate('/admin-dashboard');
-              break;
-            default:
-              navigate('/student-dashboard');
-          }
+      } else if (isAuthenticated && user && (currentPath === '/login' || currentPath === '/signup')) {
+        // Only redirect authenticated users away from login/signup pages
+        switch (user.role) {
+          case 'student':
+            navigate('/student-dashboard');
+            break;
+          case 'teacher':
+            navigate('/teacher-dashboard');
+            break;
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          default:
+            navigate('/student-dashboard');
         }
       }
     }
-  }, [isAuthenticated, user, isLoading, navigate]);
+  }, [isAuthenticated, user, isLoading, navigate, requireAuth]);
 
   if (isLoading) {
     return <LoadingSpinner />;
