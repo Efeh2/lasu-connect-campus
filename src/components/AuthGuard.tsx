@@ -19,11 +19,11 @@ const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
         // Redirect to login if authentication is required but user is not logged in
         navigate('/login');
       } else if (isAuthenticated && user) {
-        // Redirect authenticated users to their appropriate dashboard
+        // Only redirect authenticated users from login/signup pages, not from home
         const currentPath = window.location.pathname;
         
-        // Don't redirect if already on a dashboard or specific page
-        if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
+        // Only redirect if on login or signup pages
+        if (currentPath === '/login' || currentPath === '/signup') {
           switch (user.role) {
             case 'student':
               navigate('/student-dashboard');
