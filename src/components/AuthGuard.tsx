@@ -15,25 +15,27 @@ const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
 
   useEffect(() => {
     if (!isLoading) {
-      const currentPath = window.location.pathname;
-      
       if (requireAuth && !isAuthenticated) {
         // Redirect to login if authentication is required but user is not logged in
         navigate('/login');
-      } else if (isAuthenticated && user && (currentPath === '/login' || currentPath === '/signup')) {
-        // Only redirect authenticated users away from login/signup pages
-        switch (user.role) {
-          case 'student':
-            navigate('/student-dashboard');
-            break;
-          case 'teacher':
-            navigate('/teacher-dashboard');
-            break;
-          case 'admin':
-            navigate('/admin-dashboard');
-            break;
-          default:
-            navigate('/student-dashboard');
+      } else if (isAuthenticated && user) {
+        // Redirect authenticated users to their appropriate dashboard
+        const currentPath = window.location.pathname;
+        
+        if (currentPath === '/login' || currentPath === '/signup') {
+          switch (user.role) {
+            case 'student':
+              navigate('/student-dashboard');
+              break;
+            case 'teacher':
+              navigate('/teacher-dashboard');
+              break;
+            case 'admin':
+              navigate('/admin-dashboard');
+              break;
+            default:
+              navigate('/student-dashboard');
+          }
         }
       }
     }
