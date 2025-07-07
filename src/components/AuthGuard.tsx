@@ -20,22 +20,18 @@ const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
         navigate('/login');
       } else if (isAuthenticated && user) {
         // Redirect authenticated users to their appropriate dashboard
-        const currentPath = window.location.pathname;
-        
-        if (currentPath === '/login' || currentPath === '/signup') {
-          switch (user.role) {
-            case 'student':
-              navigate('/student-dashboard');
-              break;
-            case 'teacher':
-              navigate('/teacher-dashboard');
-              break;
-            case 'admin':
-              navigate('/admin-dashboard');
-              break;
-            default:
-              navigate('/student-dashboard');
-          }
+        switch (user.role) {
+          case 'student':
+            navigate('/student-dashboard');
+            break;
+          case 'teacher':
+            navigate('/teacher-dashboard');
+            break;
+          case 'admin':
+            navigate('/admin-dashboard');
+            break;
+          default:
+            navigate('/student-dashboard');
         }
       }
     }
