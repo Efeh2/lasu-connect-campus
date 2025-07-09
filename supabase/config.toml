@@ -1,0 +1,3 @@
+[project]
+enabled = true
+db_schema = "public"
