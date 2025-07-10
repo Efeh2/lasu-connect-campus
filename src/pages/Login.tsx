@@ -1,33 +1,74 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { signIn, user } = useAuth();
   const [userType, setUserType] = useState('student');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    level: '100'
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      const role = user.user_metadata?.role || 'student';
+      switch (role) {
+        case 'student':
+          navigate('/student-dashboard');
+          break;
+        case 'teacher':
+          navigate('/teacher-dashboard');
+          break;
+        case 'admin':
+          navigate('/admin-dashboard');
+          break;
+        default:
+          navigate('/');
+      }
+    }
+  }, [user, navigate]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt:', { userType, ...formData });
-    // Handle login logic here
-  };
+    setIsLoading(true);
 
-  const levels = ['100', '200', '300', '400', '500'];
+    const { error } = await signIn(formData.email, formData.password);
+    
+    if (!error && user) {
+      const role = user.user_metadata?.role || 'student';
+      switch (role) {
+        case 'student':
+          navigate('/student-dashboard');
+          break;
+        case 'teacher':
+          navigate('/teacher-dashboard');
+          break;
+        case 'admin':
+          navigate('/admin-dashboard');
+          break;
+        default:
+          navigate('/');
+      }
+    }
+    
+    setIsLoading(false);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -45,48 +86,6 @@ const Login = () => {
               />
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h2>
               <p className="text-gray-600">Sign in to your TSI account</p>
-            </div>
-
-            {/* User Type Selection */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                I am a:
-              </label>
-              <div className="grid grid-cols-3 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setUserType('student')}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    userType === 'student'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  Student
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setUserType('teacher')}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    userType === 'teacher'
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  Teacher
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setUserType('admin')}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    userType === 'admin'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  Admin
-                </button>
-              </div>
             </div>
 
             {/* Login Form */}
@@ -109,29 +108,6 @@ const Login = () => {
                   />
                 </div>
               </div>
-
-              {/* Level Selection for Students */}
-              {userType === 'student' && (
-                <div>
-                  <label htmlFor="level" className="block text-sm font-medium text-gray-700 mb-2">
-                    Academic Level
-                  </label>
-                  <select
-                    id="level"
-                    name="level"
-                    value={formData.level}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
-                    required
-                  >
-                    {levels.map((level) => (
-                      <option key={level} value={level}>
-                        {level} Level
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
 
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
@@ -174,16 +150,10 @@ const Login = () => {
 
               <button
                 type="submit"
-                className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors ${
-                  userType === 'student'
-                    ? 'bg-purple-600 hover:bg-purple-700'
-                    : userType === 'teacher'
-                    ? 'bg-green-600 hover:bg-green-700'
-                    : 'bg-purple-600 hover:bg-purple-700'
-                }`}
+                disabled={isLoading}
+                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:opacity-50"
               >
-                Sign In as {userType.charAt(0).toUpperCase() + userType.slice(1)}
-                {userType === 'student' && ` (${formData.level} Level)`}
+                {isLoading ? 'Signing In...' : 'Sign In'}
               </button>
             </form>
 

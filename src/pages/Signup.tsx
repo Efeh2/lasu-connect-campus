@@ -1,14 +1,18 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, Phone, BookOpen } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const { signUp, user } = useAuth();
   const [userType, setUserType] = useState('student');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,6 +24,26 @@ const Signup = () => {
     confirmPassword: ''
   });
 
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      const role = user.user_metadata?.role || 'student';
+      switch (role) {
+        case 'student':
+          navigate('/student-dashboard');
+          break;
+        case 'teacher':
+          navigate('/teacher-dashboard');
+          break;
+        case 'admin':
+          navigate('/admin-dashboard');
+          break;
+        default:
+          navigate('/');
+      }
+    }
+  }, [user, navigate]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -27,10 +51,32 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Signup attempt:', { userType, ...formData });
-    // Handle signup logic here
+    
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    
+    setIsLoading(true);
+
+    const { error } = await signUp({
+      email: formData.email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      userType,
+      phone: formData.phone,
+      studentId: formData.studentId,
+      level: formData.level
+    });
+    
+    if (!error) {
+      navigate('/login');
+    }
+    
+    setIsLoading(false);
   };
 
   const levels = userType === 'student' 
@@ -296,9 +342,10 @@ const Signup = () => {
 
               <button
                 type="submit"
-                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700"
+                disabled={isLoading}
+                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:opacity-50"
               >
-                Create {userType.charAt(0).toUpperCase() + userType.slice(1)} Account
+                {isLoading ? 'Creating Account...' : `Create ${userType.charAt(0).toUpperCase() + userType.slice(1)} Account`}
               </button>
             </form>
 
