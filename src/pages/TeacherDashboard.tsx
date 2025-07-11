@@ -18,11 +18,9 @@ import {
   TrendingUp
 } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
-import { useUser } from '../contexts/UserContext';
 
 const TeacherDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useUser();
 
   const quickActions = [
     { title: 'Add Course', icon: Plus, href: '/teacher/add-course', color: 'bg-green-500' },
@@ -31,9 +29,6 @@ const TeacherDashboard = () => {
     { title: 'Schedule Consultation', icon: Clock, href: '/teacher/schedule-consultation', color: 'bg-orange-500' },
     { title: 'View Analytics', icon: TrendingUp, href: '/teacher/view-analytics', color: 'bg-indigo-500' },
   ];
-
-  const displayName = user?.name || 'Teacher';
-  const welcomeName = user?.firstName || user?.name?.split(' ')[0] || 'Teacher';
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -58,7 +53,7 @@ const TeacherDashboard = () => {
                 5
               </span>
             </Link>
-            <UserAvatar name={displayName} role="teacher" />
+            <UserAvatar name="Dr. Smith" role="teacher" />
             <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
               Home
             </Link>
@@ -98,41 +93,8 @@ const TeacherDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back, {welcomeName}!</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back, Dr. Smith!</h2>
           <p className="text-gray-600 dark:text-gray-400">Here's what's happening with your courses today.</p>
-          
-          {/* User Details Card */}
-          {user && (
-            <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Your Profile</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</label>
-                  <p className="text-gray-900 dark:text-white">{user.name}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</label>
-                  <p className="text-gray-900 dark:text-white">{user.email}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Role</label>
-                  <p className="text-gray-900 dark:text-white capitalize">{user.role}</p>
-                </div>
-                {user.studentId && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Staff ID</label>
-                    <p className="text-gray-900 dark:text-white">{user.studentId}</p>
-                  </div>
-                )}
-                {user.phone && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</label>
-                    <p className="text-gray-900 dark:text-white">{user.phone}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Stats Grid */}

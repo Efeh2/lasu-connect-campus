@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
@@ -16,11 +15,9 @@ import {
   Download
 } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
-import { useUser } from '../contexts/UserContext';
 
 const AdminDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useUser();
 
   const quickActions = [
     { title: 'Add User', icon: UserPlus, href: '/admin/add-user', color: 'bg-blue-500' },
@@ -29,9 +26,6 @@ const AdminDashboard = () => {
     { title: 'Generate Reports', icon: Download, href: '/admin/generate-reports', color: 'bg-orange-500' },
     { title: 'Platform Analytics', icon: PieChart, href: '/admin/platform-analytics', color: 'bg-indigo-500' },
   ];
-
-  const displayName = user?.name || 'Admin';
-  const welcomeName = user?.firstName || user?.name?.split(' ')[0] || 'Admin';
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -47,7 +41,6 @@ const AdminDashboard = () => {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
           </div>
           <div className="flex items-center space-x-4">
-            <UserAvatar name={displayName} role="admin" />
             <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
               Home
             </Link>
@@ -87,41 +80,8 @@ const AdminDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back, {welcomeName}!</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back, Admin!</h2>
           <p className="text-gray-600 dark:text-gray-400">System overview and management tools.</p>
-          
-          {/* User Details Card */}
-          {user && (
-            <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Your Profile</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Full Name</label>
-                  <p className="text-gray-900 dark:text-white">{user.name}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Email</label>
-                  <p className="text-gray-900 dark:text-white">{user.email}</p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Role</label>
-                  <p className="text-gray-900 dark:text-white capitalize">{user.role}</p>
-                </div>
-                {user.studentId && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Admin ID</label>
-                    <p className="text-gray-900 dark:text-white">{user.studentId}</p>
-                  </div>
-                )}
-                {user.phone && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</label>
-                    <p className="text-gray-900 dark:text-white">{user.phone}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Stats Grid */}
