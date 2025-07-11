@@ -1,41 +1,20 @@
 
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import { useAuth } from '@/contexts/AuthContext';
+import { useUser } from '../contexts/UserContext';
+import { Button } from '@/components/ui/button';
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { signIn, user } = useAuth();
-  const [userType, setUserType] = useState('student');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
+    password: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      const role = user.user_metadata?.role || 'student';
-      switch (role) {
-        case 'student':
-          navigate('/student-dashboard');
-          break;
-        case 'teacher':
-          navigate('/teacher-dashboard');
-          break;
-        case 'admin':
-          navigate('/admin-dashboard');
-          break;
-        default:
-          navigate('/');
-      }
-    }
-  }, [user, navigate]);
+  const { login, isLoading, error } = useUser();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -46,36 +25,15 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    const { error } = await signIn(formData.email, formData.password);
-    
-    if (!error && user) {
-      const role = user.user_metadata?.role || 'student';
-      switch (role) {
-        case 'student':
-          navigate('/student-dashboard');
-          break;
-        case 'teacher':
-          navigate('/teacher-dashboard');
-          break;
-        case 'admin':
-          navigate('/admin-dashboard');
-          break;
-        default:
-          navigate('/');
-      }
-    }
-    
-    setIsLoading(false);
+    await login(formData.email, formData.password);
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
       
-      <div className="flex-1 bg-gray-50 py-12">
-        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex-1 bg-gray-50 flex items-center justify-center py-12">
+        <div className="max-w-md w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-xl shadow-lg p-8">
             {/* Header */}
             <div className="text-center mb-8">
@@ -88,8 +46,16 @@ const Login = () => {
               <p className="text-gray-600">Sign in to your TSI account</p>
             </div>
 
+            {/* Display error if any */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
+
             {/* Login Form */}
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address
@@ -109,6 +75,7 @@ const Login = () => {
                 </div>
               </div>
 
+              {/* Password */}
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                   Password
@@ -135,26 +102,20 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                  />
-                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
+              {/* Forgot Password */}
+              <div className="text-right">
                 <a href="#" className="text-sm text-purple-600 hover:text-purple-800">
-                  Forgot password?
+                  Forgot your password?
                 </a>
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
                 className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:opacity-50"
               >
                 {isLoading ? 'Signing In...' : 'Sign In'}
-              </button>
+              </Button>
             </form>
 
             {/* Footer */}

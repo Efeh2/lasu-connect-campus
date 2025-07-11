@@ -1,18 +1,17 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, Phone, BookOpen } from 'lucide-react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
-import { useAuth } from '@/contexts/AuthContext';
+import { useUser } from '../contexts/UserContext';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 
 const Signup = () => {
-  const navigate = useNavigate();
-  const { signUp, user } = useAuth();
   const [userType, setUserType] = useState('student');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -24,25 +23,9 @@ const Signup = () => {
     confirmPassword: ''
   });
 
-  // Redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      const role = user.user_metadata?.role || 'student';
-      switch (role) {
-        case 'student':
-          navigate('/student-dashboard');
-          break;
-        case 'teacher':
-          navigate('/teacher-dashboard');
-          break;
-        case 'admin':
-          navigate('/admin-dashboard');
-          break;
-        default:
-          navigate('/');
-      }
-    }
-  }, [user, navigate]);
+  const { signup, isLoading, error } = useUser();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -54,29 +37,39 @@ const Signup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validation
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      toast({
+        title: "Password Mismatch",
+        description: "Passwords do not match. Please try again.",
+        variant: "destructive",
+      });
       return;
     }
-    
-    setIsLoading(true);
 
-    const { error } = await signUp({
-      email: formData.email,
-      password: formData.password,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      userType,
-      phone: formData.phone,
-      studentId: formData.studentId,
-      level: formData.level
-    });
-    
-    if (!error) {
-      navigate('/login');
+    if (formData.password.length < 6) {
+      toast({
+        title: "Password Too Short",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive",
+      });
+      return;
     }
-    
-    setIsLoading(false);
+
+    try {
+      await signup({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        studentId: formData.studentId,
+        level: formData.level,
+        password: formData.password,
+        role: userType as 'student' | 'teacher' | 'admin',
+      });
+    } catch (error) {
+      console.error('Signup error:', error);
+    }
   };
 
   const levels = userType === 'student' 
@@ -102,6 +95,13 @@ const Signup = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-2">Join TSI</h2>
               <p className="text-gray-600">Create your account to get started</p>
             </div>
+
+            {/* Display error if any */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-600 text-sm">{error}</p>
+              </div>
+            )}
 
             {/* User Type Selection */}
             <div className="mb-6">
@@ -340,13 +340,13 @@ const Signup = () => {
                 </label>
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
                 className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:opacity-50"
               >
                 {isLoading ? 'Creating Account...' : `Create ${userType.charAt(0).toUpperCase() + userType.slice(1)} Account`}
-              </button>
+              </Button>
             </form>
 
             {/* Footer */}
