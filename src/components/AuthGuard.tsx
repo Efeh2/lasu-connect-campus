@@ -23,7 +23,7 @@ const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
         const currentPath = window.location.pathname;
         
         // Don't redirect if already on a dashboard or specific page
-        if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
+        if (currentPath === '/' || currentPath === '/login' || current-path === '/signup') {
           switch (user.role) {
             case 'student':
               navigate('/student-dashboard');
@@ -40,7 +40,7 @@ const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
         }
       }
     }
-  }, [isAuthenticated, user, isLoading, navigate]);
+  }, [isAuthenticated, user, isLoading, navigate, requireAuth]);
 
   if (isLoading) {
     return <LoadingSpinner />;
