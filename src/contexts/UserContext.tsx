@@ -1,14 +1,20 @@
-
-import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { User as SupabaseUser, Session } from '@supabase/supabase-js';
-import { useToast } from '@/components/ui/use-toast';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  ReactNode,
+  useRef,
+} from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { User as SupabaseUser, Session } from "@supabase/supabase-js";
+import { useToast } from "@/components/ui/use-toast";
 
 export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'student' | 'teacher' | 'admin';
+  role: "student" | "teacher" | "admin";
   level?: string;
   avatar?: string;
   isOnline: boolean;
@@ -27,14 +33,14 @@ interface UserState {
 }
 
 type UserAction =
-  | { type: 'LOGIN_START' }
-  | { type: 'LOGIN_SUCCESS'; payload: { user: User; session: Session } }
-  | { type: 'LOGIN_FAILURE'; payload: string }
-  | { type: 'LOGOUT' }
-  | { type: 'UPDATE_USER'; payload: Partial<User> }
-  | { type: 'SET_ONLINE_STATUS'; payload: boolean }
-  | { type: 'CLEAR_ERROR' }
-  | { type: 'SET_LOADING'; payload: boolean };
+  | { type: "LOGIN_START" }
+  | { type: "LOGIN_SUCCESS"; payload: { user: User; session: Session } }
+  | { type: "LOGIN_FAILURE"; payload: string }
+  | { type: "LOGOUT" }
+  | { type: "UPDATE_USER"; payload: Partial<User> }
+  | { type: "SET_ONLINE_STATUS"; payload: boolean }
+  | { type: "CLEAR_ERROR" }
+  | { type: "SET_LOADING"; payload: boolean };
 
 const initialState: UserState = {
   user: null,
@@ -46,9 +52,9 @@ const initialState: UserState = {
 
 const userReducer = (state: UserState, action: UserAction): UserState => {
   switch (action.type) {
-    case 'LOGIN_START':
+    case "LOGIN_START":
       return { ...state, isLoading: true, error: null };
-    case 'LOGIN_SUCCESS':
+    case "LOGIN_SUCCESS":
       return {
         ...state,
         isLoading: false,
@@ -57,7 +63,7 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
         session: action.payload.session,
         error: null,
       };
-    case 'LOGIN_FAILURE':
+    case "LOGIN_FAILURE":
       return {
         ...state,
         isLoading: false,
@@ -66,7 +72,7 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
         session: null,
         error: action.payload,
       };
-    case 'LOGOUT':
+    case "LOGOUT":
       return {
         ...state,
         isAuthenticated: false,
@@ -74,19 +80,19 @@ const userReducer = (state: UserState, action: UserAction): UserState => {
         session: null,
         error: null,
       };
-    case 'UPDATE_USER':
+    case "UPDATE_USER":
       return {
         ...state,
         user: state.user ? { ...state.user, ...action.payload } : null,
       };
-    case 'SET_ONLINE_STATUS':
+    case "SET_ONLINE_STATUS":
       return {
         ...state,
         user: state.user ? { ...state.user, isOnline: action.payload } : null,
       };
-    case 'CLEAR_ERROR':
+    case "CLEAR_ERROR":
       return { ...state, error: null };
-    case 'SET_LOADING':
+    case "SET_LOADING":
       return { ...state, isLoading: action.payload };
     default:
       return state;
@@ -110,22 +116,27 @@ export interface SignupData {
   studentId: string;
   level: string;
   password: string;
-  role: 'student' | 'teacher' | 'admin';
+  role: "student" | "teacher" | "admin";
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const UserProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
   const { toast } = useToast();
+  const initializedRef = useRef(false);
 
   // Helper function to transform Supabase user to our User type
   const transformUser = (supabaseUser: SupabaseUser, profile: any): User => {
     return {
       id: supabaseUser.id,
-      email: supabaseUser.email || '',
-      name: profile?.first_name ? `${profile.first_name} ${profile.last_name || ''}`.trim() : supabaseUser.email?.split('@')[0] || '',
-      role: profile?.role || 'student',
+      email: supabaseUser.email || "",
+      name: profile?.first_name
+        ? `${profile.first_name} ${profile.last_name || ""}`.trim()
+        : supabaseUser.email?.split("@")[0] || "",
+      role: profile?.role || "student",
       level: profile?.level,
       avatar: profile?.avatar_url,
       isOnline: profile?.is_online || false,
@@ -137,62 +148,82 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session);
-        
-        if (session?.user) {
-          // Fetch user profile
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-          
-          const user = transformUser(session.user, profile);
-          dispatch({ 
-            type: 'LOGIN_SUCCESS', 
-            payload: { user, session } 
-          });
-        } else {
-          dispatch({ type: 'LOGOUT' });
-        }
-        
-        dispatch({ type: 'SET_LOADING', payload: false });
-      }
-    );
+    let mounted = true;
 
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .single()
-          .then(({ data: profile }) => {
-            const user = transformUser(session.user, profile);
-            dispatch({ 
-              type: 'LOGIN_SUCCESS', 
-              payload: { user, session } 
-            });
-            dispatch({ type: 'SET_LOADING', payload: false });
+    const initializeAuth = async () => {
+      try {
+        // Check for existing session first
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (session?.user && mounted) {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", session.user.id)
+            .single();
+
+          const user = transformUser(session.user, profile);
+          dispatch({
+            type: "LOGIN_SUCCESS",
+            payload: { user, session },
           });
-      } else {
-        dispatch({ type: 'SET_LOADING', payload: false });
+        } else if (mounted) {
+          dispatch({ type: "SET_LOADING", payload: false });
+        }
+      } catch (error) {
+        console.error("Auth initialization error:", error);
+        if (mounted) {
+          dispatch({ type: "SET_LOADING", payload: false });
+        }
+      }
+
+      initializedRef.current = true;
+    };
+
+    // Set up auth state listener
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state changed:", event, session);
+
+      // Only handle auth changes after initial load
+      if (!initializedRef.current) return;
+
+      if (session?.user && mounted) {
+        // Fetch user profile
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+
+        const user = transformUser(session.user, profile);
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: { user, session },
+        });
+      } else if (mounted) {
+        dispatch({ type: "LOGOUT" });
       }
     });
 
-    return () => subscription.unsubscribe();
+    // Initialize auth
+    initializeAuth();
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signup = async (userData: SignupData) => {
-    dispatch({ type: 'LOGIN_START' });
-    
+    dispatch({ type: "LOGIN_START" });
+
     try {
       const redirectUrl = `${window.location.origin}/`;
-      
+
       const { data, error } = await supabase.auth.signUp({
         email: userData.email,
         password: userData.password,
@@ -205,12 +236,12 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             level: userData.level,
             student_id: userData.studentId,
             phone: userData.phone,
-          }
-        }
+          },
+        },
       });
 
       if (error) {
-        dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
+        dispatch({ type: "LOGIN_FAILURE", payload: error.message });
         toast({
           title: "Signup Failed",
           description: error.message,
@@ -222,12 +253,14 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       if (data.user && !data.session) {
         toast({
           title: "Check your email",
-          description: "Please check your email for a verification link to complete your signup.",
+          description:
+            "Please check your email for a verification link to complete your signup.",
         });
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Signup failed';
-      dispatch({ type: 'LOGIN_FAILURE', payload: errorMessage });
+      const errorMessage =
+        error instanceof Error ? error.message : "Signup failed";
+      dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
       toast({
         title: "Error",
         description: errorMessage,
@@ -237,8 +270,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const login = async (email: string, password: string) => {
-    dispatch({ type: 'LOGIN_START' });
-    
+    dispatch({ type: "LOGIN_START" });
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -246,7 +279,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       });
 
       if (error) {
-        dispatch({ type: 'LOGIN_FAILURE', payload: error.message });
+        dispatch({ type: "LOGIN_FAILURE", payload: error.message });
         toast({
           title: "Login Failed",
           description: error.message,
@@ -261,8 +294,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         description: "You have been successfully logged in.",
       });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Login failed';
-      dispatch({ type: 'LOGIN_FAILURE', payload: errorMessage });
+      const errorMessage =
+        error instanceof Error ? error.message : "Login failed";
+      dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
       toast({
         title: "Error",
         description: errorMessage,
@@ -281,39 +315,41 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           variant: "destructive",
         });
       } else {
-        dispatch({ type: 'LOGOUT' });
+        dispatch({ type: "LOGOUT" });
         toast({
           title: "Logged out",
           description: "You have been successfully logged out.",
         });
       }
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     }
   };
 
   const updateUser = (updates: Partial<User>) => {
-    dispatch({ type: 'UPDATE_USER', payload: updates });
+    dispatch({ type: "UPDATE_USER", payload: updates });
   };
 
   const setOnlineStatus = (isOnline: boolean) => {
-    dispatch({ type: 'SET_ONLINE_STATUS', payload: isOnline });
+    dispatch({ type: "SET_ONLINE_STATUS", payload: isOnline });
   };
 
   const clearError = () => {
-    dispatch({ type: 'CLEAR_ERROR' });
+    dispatch({ type: "CLEAR_ERROR" });
   };
 
   return (
-    <UserContext.Provider value={{
-      ...state,
-      login,
-      signup,
-      logout,
-      updateUser,
-      setOnlineStatus,
-      clearError,
-    }}>
+    <UserContext.Provider
+      value={{
+        ...state,
+        login,
+        signup,
+        logout,
+        updateUser,
+        setOnlineStatus,
+        clearError,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -322,7 +358,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export const useUser = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider');
+    throw new Error("useUser must be used within a UserProvider");
   }
   return context;
 };

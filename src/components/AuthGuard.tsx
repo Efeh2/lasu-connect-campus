@@ -1,8 +1,7 @@
-
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useUser } from '@/contexts/UserContext';
-import LoadingSpinner from './LoadingSpinner';
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -12,35 +11,34 @@ interface AuthGuardProps {
 const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
   const { user, isAuthenticated, isLoading } = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!isLoading) {
       if (requireAuth && !isAuthenticated) {
-        // Redirect to login if authentication is required but user is not logged in
-        navigate('/login');
+        navigate("/login", { replace: true });
       } else if (isAuthenticated && user) {
-        // Redirect authenticated users to their appropriate dashboard
-        const currentPath = window.location.pathname;
-        
-        // Don't redirect if already on a dashboard or specific page
-        if (currentPath === '/' || currentPath === '/login' || currentPath === '/signup') {
-          switch (user.role) {
-            case 'student':
-              navigate('/student-dashboard');
-              break;
-            case 'teacher':
-              navigate('/teacher-dashboard');
-              break;
-            case 'admin':
-              navigate('/admin-dashboard');
-              break;
-            default:
-              navigate('/student-dashboard');
-          }
+        // Only redirect if user is on login/signup pages
+        if (location.pathname === "/login" || location.pathname === "/signup") {
+          const dashboardPath =
+            user.role === "teacher"
+              ? "/teacher-dashboard"
+              : user.role === "admin"
+              ? "/admin-dashboard"
+              : "/student-dashboard";
+
+          navigate(dashboardPath, { replace: true });
         }
       }
     }
-  }, [isAuthenticated, user, isLoading, navigate]);
+  }, [
+    isAuthenticated,
+    isLoading,
+    navigate,
+    requireAuth,
+    location.pathname,
+    user?.role,
+  ]);
 
   if (isLoading) {
     return <LoadingSpinner />;
