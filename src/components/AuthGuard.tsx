@@ -40,7 +40,7 @@ const AuthGuard = ({ children, requireAuth = false }: AuthGuardProps) => {
         }
       }
     }
-  }, [isAuthenticated, user, isLoading, navigate]);
+  }, [isAuthenticated, user, isLoading, navigate, requireAuth]);
 
   if (isLoading) {
     return <LoadingSpinner />;
