@@ -15,9 +15,12 @@ import {
   Eye
 } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
+import LogoutButton from '../components/LogoutButton';
+import { useUser } from '../contexts/UserContext';
 
 const StudentDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useUser();
 
   const quickActions = [
     { title: 'Join Study Group', icon: UserPlus, href: '/student/join-study-group', color: 'bg-blue-500' },
@@ -49,10 +52,8 @@ const StudentDashboard = () => {
                 3
               </span>
             </Link>
-            <UserAvatar name="John Doe" role="student" />
-            <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-              Home
-            </Link>
+            <UserAvatar name={user?.name || 'User'} role={user?.role || 'student'} />
+            <LogoutButton />
             <div className="lg:hidden">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -89,8 +90,54 @@ const StudentDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome back, John!</h2>
-          <p className="text-gray-600 dark:text-gray-400">Here's your academic progress and upcoming tasks.</p>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            Welcome back, {user?.firstName || user?.name || 'Student'}!
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">Here's your academic progress and upcoming tasks.</p>
+          
+          {/* User Details Card */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Your Profile</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+              <div>
+                <span className="text-gray-500 dark:text-gray-400">Name:</span>
+                <p className="font-medium text-gray-900 dark:text-white">
+                  {user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : user?.name || 'N/A'}
+                </p>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400">Email:</span>
+                <p className="font-medium text-gray-900 dark:text-white">{user?.email || 'N/A'}</p>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400">Student ID:</span>
+                <p className="font-medium text-gray-900 dark:text-white">{user?.studentId || 'N/A'}</p>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400">Level:</span>
+                <p className="font-medium text-gray-900 dark:text-white">{user?.level || 'N/A'}</p>
+              </div>
+              {user?.phone && (
+                <div>
+                  <span className="text-gray-500 dark:text-gray-400">Phone:</span>
+                  <p className="font-medium text-gray-900 dark:text-white">{user.phone}</p>
+                </div>
+              )}
+              <div>
+                <span className="text-gray-500 dark:text-gray-400">Role:</span>
+                <p className="font-medium text-gray-900 dark:text-white capitalize">{user?.role || 'Student'}</p>
+              </div>
+              <div>
+                <span className="text-gray-500 dark:text-gray-400">Status:</span>
+                <p className="font-medium text-gray-900 dark:text-white">
+                  <span className={`inline-flex items-center gap-1 ${user?.isOnline ? 'text-green-600' : 'text-gray-500'}`}>
+                    <span className={`w-2 h-2 rounded-full ${user?.isOnline ? 'bg-green-500' : 'bg-gray-400'}`}></span>
+                    {user?.isOnline ? 'Online' : 'Offline'}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Stats Grid */}
