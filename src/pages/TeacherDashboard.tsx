@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   BookOpen, 
@@ -7,15 +6,12 @@ import {
   Award, 
   Calendar, 
   MessageSquare, 
-  BarChart3, 
-  Settings,
-  Plus,
+  FileText,
   Menu,
   X,
-  FileText,
-  ClipboardCheck,
-  Clock,
-  TrendingUp
+  PlusCircle,
+  BarChart3,
+  CheckSquare
 } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
 import LogoutButton from '../components/LogoutButton';
@@ -23,27 +19,20 @@ import { useUser } from '../contexts/UserContext';
 
 const TeacherDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [unreadMessageCount, setUnreadMessageCount] = useState(3);
   const { user } = useUser();
 
-  const quickActions = [
-    { title: 'Add Course', icon: Plus, href: '/teacher/add-course', color: 'bg-green-500' },
-    { title: 'Create Assignment', icon: FileText, href: '/teacher/create-assignment', color: 'bg-blue-500' },
-    { title: 'Grade Submissions', icon: ClipboardCheck, href: '/teacher/grade-submissions', color: 'bg-purple-500' },
-    { title: 'Schedule Consultation', icon: Clock, href: '/teacher/schedule-consultation', color: 'bg-orange-500' },
-    { title: 'View Analytics', icon: TrendingUp, href: '/teacher/view-analytics', color: 'bg-indigo-500' },
-  ];
-
-  // Fetch unread message count
   useEffect(() => {
-    const fetchUnreadCount = async () => {
-      if (!user?.id) return;
-      const { data, error } = await getUnreadMessageCount(user.id);
-      if (!error && data !== null) {
-        setUnreadMessageCount(data);
-      }
-    };
-    fetchUnreadCount();
-  }, [user?.id]);
+    // You can add any side effects or data fetching logic here
+    // For example, fetching unread messages or other dashboard data
+  }, [user]);
+
+  const quickActions = [
+    { title: 'Create Assignment', icon: PlusCircle, href: '/teacher/create-assignment', color: 'bg-blue-500' },
+    { title: 'Grade Submissions', icon: CheckSquare, href: '/teacher/grade-submissions', color: 'bg-green-500' },
+    { title: 'View Analytics', icon: BarChart3, href: '/teacher/view-analytics', color: 'bg-purple-500' },
+    { title: 'Schedule Consultation', icon: Calendar, href: '/teacher/schedule-consultation', color: 'bg-orange-500' },
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -64,9 +53,11 @@ const TeacherDashboard = () => {
               className="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors relative"
             >
               <MessageSquare size={24} />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                5
-              </span>
+              {unreadMessageCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {unreadMessageCount}
+                </span>
+              )}
             </Link>
             <UserAvatar name={user?.name || 'User'} role={user?.role || 'teacher'} />
             <LogoutButton />
@@ -109,7 +100,7 @@ const TeacherDashboard = () => {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Welcome back, {user?.firstName || user?.name || 'Teacher'}!
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">Manage your courses, assignments, and student interactions.</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">Manage your courses and connect with students.</p>
           
           {/* User Details Card */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
@@ -124,10 +115,6 @@ const TeacherDashboard = () => {
               <div>
                 <span className="text-gray-500 dark:text-gray-400">Email:</span>
                 <p className="font-medium text-gray-900 dark:text-white">{user?.email || 'N/A'}</p>
-              </div>
-              <div>
-                <span className="text-gray-500 dark:text-gray-400">Department:</span>
-                <p className="font-medium text-gray-900 dark:text-white">Computer Science</p>
               </div>
               <div>
                 <span className="text-gray-500 dark:text-gray-400">Role:</span>
@@ -160,8 +147,8 @@ const TeacherDashboard = () => {
                 <BookOpen className="text-blue-600 dark:text-blue-400" size={24} />
               </div>
               <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">6</h3>
-                <p className="text-gray-600 dark:text-gray-400">Active Courses</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">8</h3>
+                <p className="text-gray-600 dark:text-gray-400">Enrolled Courses</p>
               </div>
             </div>
           </div>
@@ -172,8 +159,8 @@ const TeacherDashboard = () => {
                 <Users className="text-green-600 dark:text-green-400" size={24} />
               </div>
               <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">234</h3>
-                <p className="text-gray-600 dark:text-gray-400">Total Students</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">3</h3>
+                <p className="text-gray-600 dark:text-gray-400">Study Groups</p>
               </div>
             </div>
           </div>
@@ -184,8 +171,8 @@ const TeacherDashboard = () => {
                 <Award className="text-purple-600 dark:text-purple-400" size={24} />
               </div>
               <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">42</h3>
-                <p className="text-gray-600 dark:text-gray-400">Pending Grades</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">85%</h3>
+                <p className="text-gray-600 dark:text-gray-400">Average Grade</p>
               </div>
             </div>
           </div>
@@ -196,8 +183,8 @@ const TeacherDashboard = () => {
                 <Calendar className="text-orange-600 dark:text-orange-400" size={24} />
               </div>
               <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">3</h3>
-                <p className="text-gray-600 dark:text-gray-400">Upcoming Classes</p>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">5</h3>
+                <p className="text-gray-600 dark:text-gray-400">Pending Tasks</p>
               </div>
             </div>
           </div>
@@ -206,7 +193,7 @@ const TeacherDashboard = () => {
         {/* Quick Actions - Desktop Only */}
         <div className="hidden lg:block mb-8">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {quickActions.map((action, index) => (
               <Link
                 key={index}
@@ -229,40 +216,40 @@ const TeacherDashboard = () => {
             <div className="space-y-4">
               <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">Data Structures Assignment</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">John Doe - 300 Level</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Data Structures Project</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">CSC 301 - John Doe</p>
                 </div>
-                <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-2 py-1 rounded-full text-sm">
-                  New
+                <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-sm">
+                  Graded
                 </span>
               </div>
               <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">Algorithms Project</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Jane Smith - 400 Level</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Algorithm Analysis</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">CSC 401 - Jane Smith</p>
                 </div>
-                <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded-full text-sm">
-                  Graded
+                <span className="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-2 py-1 rounded-full text-sm">
+                  Pending
                 </span>
               </div>
             </div>
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Upcoming Events</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent Messages</h3>
             <div className="space-y-4">
               <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
-                <Calendar className="text-blue-600 dark:text-blue-400 mr-3" size={20} />
+                <MessageSquare className="text-blue-600 dark:text-blue-400 mr-3" size={20} />
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">CSC 301 - Lecture</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Today at 2:00 PM</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">John Doe</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Question about assignment 3</p>
                 </div>
               </div>
               <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <MessageSquare className="text-green-600 dark:text-green-400 mr-3" size={20} />
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">Student Consultation</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Tomorrow at 10:00 AM</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Alice Johnson</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Inquiry about project deadline</p>
                 </div>
               </div>
             </div>

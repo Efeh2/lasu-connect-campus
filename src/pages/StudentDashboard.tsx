@@ -2,109 +2,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  BookOpen, 
-  Users, 
-  Award, 
-  Calendar, 
   MessageSquare, 
   FileText,
   Menu,
   X,
-  UserPlus,
-  Send,
-  Eye
+  Send
 } from 'lucide-react';
 import UserAvatar from '../components/UserAvatar';
 import LogoutButton from '../components/LogoutButton';
 import { useUser } from '../contexts/UserContext';
-import { supabase } from '../integrations/supabase/client';
 
 const StudentDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useUser();
-  const [courses, setCourses] = useState<Array<{
-    id: string;
-    code: string;
-    name: string;
-    description: string | null;
-    instructor_id: string | null;
-    created_at: string | null;
-    updated_at: string | null;
-  }>>([]);
-  const [coursesLoading, setCoursesLoading] = useState(true);
-  const [coursesError, setCoursesError] = useState<string | null>(null);
-  const [enrollments, setEnrollments] = useState<Array<{ course_id: string }>>([]);
-  const [enrollLoading, setEnrollLoading] = useState<string | null>(null);
-  const [enrollError, setEnrollError] = useState<string | null>(null);
-  const [enrollSuccess, setEnrollSuccess] = useState<string | null>(null);
-
-  React.useEffect(() => {
-    const fetchCourses = async () => {
-      setCoursesLoading(true);
-      setCoursesError(null);
-      if (!user?.level) {
-        setCourses([]);
-        setCoursesLoading(false);
-        return;
-      }
-      const { data, error } = await supabase
-        .from('courses')
-        .select('*')
-        .eq('level', user.level);
-      if (error) {
-        setCoursesError('Failed to load courses.');
-      } else {
-        setCourses(data || []);
-      }
-      setCoursesLoading(false);
-    };
-    fetchCourses();
-  }, [user?.level]);
-
-  // Fetch enrollments for the current student
-  React.useEffect(() => {
-    const fetchEnrollments = async () => {
-      if (!user?.id) return;
-      const { data, error } = await supabase
-        .from('enrollments')
-        .select('course_id')
-        .eq('student_id', user.id);
-      if (!error && data) {
-        setEnrollments(data);
-      }
-    };
-    fetchEnrollments();
-  }, [user?.id]);
-
-  // Helper: Get courses not yet enrolled in
-  const notEnrolledCourses = courses.filter(
-    (course) => !enrollments.some((e) => e.course_id === course.id)
-  );
-
-  // Enroll handler
-  const handleEnroll = async (courseId: string) => {
-    if (!user?.id) return;
-    setEnrollLoading(courseId);
-    setEnrollError(null);
-    setEnrollSuccess(null);
-    const { error } = await supabase.from('enrollments').insert({
-      student_id: user.id,
-      course_id: courseId,
-    });
-    if (error) {
-      setEnrollError('Failed to enroll.');
-    } else {
-      setEnrollSuccess('Enrolled successfully!');
-      setEnrollments((prev) => [...prev, { course_id: courseId }]);
-    }
-    setEnrollLoading(null);
-  };
 
   const quickActions = [
-    { title: 'Join Study Group', icon: UserPlus, href: '/student/join-study-group', color: 'bg-blue-500' },
     { title: 'Submit Assignment', icon: FileText, href: '/student/submit-assignment', color: 'bg-green-500' },
     { title: 'Message Teacher', icon: Send, href: '/student/message-teacher', color: 'bg-purple-500' },
-    { title: 'View Grades', icon: Eye, href: '/student/view-grades', color: 'bg-orange-500' },
   ];
 
   return (
@@ -171,7 +85,7 @@ const StudentDashboard = () => {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Welcome back, {user?.firstName || user?.name || 'Student'}!
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-4">Here's your academic progress and upcoming tasks.</p>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">Submit assignments and communicate with your teachers.</p>
           
           {/* User Details Card */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
@@ -218,121 +132,26 @@ const StudentDashboard = () => {
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
-            <div className="flex items-center">
-              <div className="bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
-                <BookOpen className="text-blue-600 dark:text-blue-400" size={24} />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">8</h3>
-                <p className="text-gray-600 dark:text-gray-400">Enrolled Courses</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
-            <div className="flex items-center">
-              <div className="bg-green-100 dark:bg-green-900 p-3 rounded-full">
-                <Users className="text-green-600 dark:text-green-400" size={24} />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">3</h3>
-                <p className="text-gray-600 dark:text-gray-400">Study Groups</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
-            <div className="flex items-center">
-              <div className="bg-purple-100 dark:bg-purple-900 p-3 rounded-full">
-                <Award className="text-purple-600 dark:text-purple-400" size={24} />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">85%</h3>
-                <p className="text-gray-600 dark:text-gray-400">Average Grade</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
-            <div className="flex items-center">
-              <div className="bg-orange-100 dark:bg-orange-900 p-3 rounded-full">
-                <Calendar className="text-orange-600 dark:text-orange-400" size={24} />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">5</h3>
-                <p className="text-gray-600 dark:text-gray-400">Pending Tasks</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* All Available Courses (filtered by level) */}
+        {/* Quick Actions - Desktop and Mobile */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">All Available Courses</h3>
-          {coursesLoading ? (
-            <div className="text-gray-600 dark:text-gray-400">Loading courses...</div>
-          ) : coursesError ? (
-            <div className="text-red-600 dark:text-red-400">{coursesError}</div>
-          ) : courses.length === 0 ? (
-            <div className="text-gray-600 dark:text-gray-400">No courses available.</div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courses.map(course => (
-                <div key={course.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
-                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{course.code}: {course.name}</h4>
-                  {course.description && <p className="text-gray-600 dark:text-gray-400 mb-2">{course.description}</p>}
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Course ID: {course.id}</p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Enroll in Courses */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Enroll in a Course</h3>
-          {enrollSuccess && <div className="text-green-600 dark:text-green-400 mb-2">{enrollSuccess}</div>}
-          {enrollError && <div className="text-red-600 dark:text-red-400 mb-2">{enrollError}</div>}
-          {notEnrolledCourses.length === 0 ? (
-            <div className="text-gray-600 dark:text-gray-400">You are enrolled in all available courses for your level.</div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {notEnrolledCourses.map(course => (
-                <div key={course.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300 flex flex-col justify-between">
-                  <div>
-                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{course.code}: {course.name}</h4>
-                    {course.description && <p className="text-gray-600 dark:text-gray-400 mb-2">{course.description}</p>}
-                  </div>
-                  <button
-                    className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
-                    onClick={() => handleEnroll(course.id)}
-                    disabled={!!enrollLoading}
-                  >
-                    {enrollLoading === course.id ? 'Enrolling...' : 'Enroll'}
-                  </button>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Quick Actions - Desktop Only */}
-        <div className="hidden lg:block mb-8">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {quickActions.map((action, index) => (
               <Link
                 key={index}
                 to={action.href}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 hover:shadow-lg transition-all duration-200 transform hover:scale-105 animate-fade-in"
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8 hover:shadow-lg transition-all duration-200 transform hover:scale-105 animate-fade-in"
               >
-                <div className={`${action.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
-                  <action.icon className="text-white" size={20} />
+                <div className={`${action.color} w-16 h-16 rounded-lg flex items-center justify-center mb-6`}>
+                  <action.icon className="text-white" size={28} />
                 </div>
-                <h4 className="font-semibold text-gray-900 dark:text-white">{action.title}</h4>
+                <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{action.title}</h4>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {action.title === 'Submit Assignment' 
+                    ? 'Upload and submit your completed assignments'
+                    : 'Send messages and communicate with your teachers'
+                  }
+                </p>
               </Link>
             ))}
           </div>
@@ -365,20 +184,20 @@ const StudentDashboard = () => {
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 animate-fade-in transition-colors duration-300">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Upcoming Classes</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Recent Messages</h3>
             <div className="space-y-4">
               <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
-                <Calendar className="text-blue-600 dark:text-blue-400 mr-3" size={20} />
+                <MessageSquare className="text-blue-600 dark:text-blue-400 mr-3" size={20} />
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">CSC 301 - Data Structures</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Today at 10:00 AM</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Dr. Johnson</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Assignment deadline extended</p>
                 </div>
               </div>
               <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg transition-colors duration-300">
                 <MessageSquare className="text-green-600 dark:text-green-400 mr-3" size={20} />
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">CSC 401 - Algorithm Design</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Tomorrow at 2:00 PM</p>
+                  <h4 className="font-medium text-gray-900 dark:text-white">Prof. Williams</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Quiz preparation materials shared</p>
                 </div>
               </div>
             </div>
