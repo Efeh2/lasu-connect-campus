@@ -33,6 +33,18 @@ const TeacherDashboard = () => {
     { title: 'View Analytics', icon: TrendingUp, href: '/teacher/view-analytics', color: 'bg-indigo-500' },
   ];
 
+  // Fetch unread message count
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      if (!user?.id) return;
+      const { data, error } = await getUnreadMessageCount(user.id);
+      if (!error && data !== null) {
+        setUnreadMessageCount(data);
+      }
+    };
+    fetchUnreadCount();
+  }, [user?.id]);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       {/* Header */}

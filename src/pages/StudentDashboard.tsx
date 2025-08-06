@@ -17,10 +17,88 @@ import {
 import UserAvatar from '../components/UserAvatar';
 import LogoutButton from '../components/LogoutButton';
 import { useUser } from '../contexts/UserContext';
+import { supabase } from '../integrations/supabase/client';
 
 const StudentDashboard = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useUser();
+  const [courses, setCourses] = useState<Array<{
+    id: string;
+    code: string;
+    name: string;
+    description: string | null;
+    instructor_id: string | null;
+    created_at: string | null;
+    updated_at: string | null;
+  }>>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
+  const [coursesError, setCoursesError] = useState<string | null>(null);
+  const [enrollments, setEnrollments] = useState<Array<{ course_id: string }>>([]);
+  const [enrollLoading, setEnrollLoading] = useState<string | null>(null);
+  const [enrollError, setEnrollError] = useState<string | null>(null);
+  const [enrollSuccess, setEnrollSuccess] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const fetchCourses = async () => {
+      setCoursesLoading(true);
+      setCoursesError(null);
+      if (!user?.level) {
+        setCourses([]);
+        setCoursesLoading(false);
+        return;
+      }
+      const { data, error } = await supabase
+        .from('courses')
+        .select('*')
+        .eq('level', user.level);
+      if (error) {
+        setCoursesError('Failed to load courses.');
+      } else {
+        setCourses(data || []);
+      }
+      setCoursesLoading(false);
+    };
+    fetchCourses();
+  }, [user?.level]);
+
+  // Fetch enrollments for the current student
+  React.useEffect(() => {
+    const fetchEnrollments = async () => {
+      if (!user?.id) return;
+      const { data, error } = await supabase
+        .from('enrollments')
+        .select('course_id')
+        .eq('student_id', user.id);
+      if (!error && data) {
+        setEnrollments(data);
+      }
+    };
+    fetchEnrollments();
+  }, [user?.id]);
+
+  // Helper: Get courses not yet enrolled in
+  const notEnrolledCourses = courses.filter(
+    (course) => !enrollments.some((e) => e.course_id === course.id)
+  );
+
+  // Enroll handler
+  const handleEnroll = async (courseId: string) => {
+    if (!user?.id) return;
+    setEnrollLoading(courseId);
+    setEnrollError(null);
+    setEnrollSuccess(null);
+    const { error } = await supabase.from('enrollments').insert({
+      student_id: user.id,
+      course_id: courseId,
+    });
+    if (error) {
+      setEnrollError('Failed to enroll.');
+    } else {
+      setEnrollSuccess('Enrolled successfully!');
+      setEnrollments((prev) => [...prev, { course_id: courseId }]);
+    }
+    setEnrollLoading(null);
+  };
 
   const quickActions = [
     { title: 'Join Study Group', icon: UserPlus, href: '/student/join-study-group', color: 'bg-blue-500' },
@@ -189,6 +267,56 @@ const StudentDashboard = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* All Available Courses (filtered by level) */}
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">All Available Courses</h3>
+          {coursesLoading ? (
+            <div className="text-gray-600 dark:text-gray-400">Loading courses...</div>
+          ) : coursesError ? (
+            <div className="text-red-600 dark:text-red-400">{coursesError}</div>
+          ) : courses.length === 0 ? (
+            <div className="text-gray-600 dark:text-gray-400">No courses available.</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {courses.map(course => (
+                <div key={course.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300">
+                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{course.code}: {course.name}</h4>
+                  {course.description && <p className="text-gray-600 dark:text-gray-400 mb-2">{course.description}</p>}
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Course ID: {course.id}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Enroll in Courses */}
+        <div className="mb-8">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Enroll in a Course</h3>
+          {enrollSuccess && <div className="text-green-600 dark:text-green-400 mb-2">{enrollSuccess}</div>}
+          {enrollError && <div className="text-red-600 dark:text-red-400 mb-2">{enrollError}</div>}
+          {notEnrolledCourses.length === 0 ? (
+            <div className="text-gray-600 dark:text-gray-400">You are enrolled in all available courses for your level.</div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {notEnrolledCourses.map(course => (
+                <div key={course.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 transition-colors duration-300 flex flex-col justify-between">
+                  <div>
+                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{course.code}: {course.name}</h4>
+                    {course.description && <p className="text-gray-600 dark:text-gray-400 mb-2">{course.description}</p>}
+                  </div>
+                  <button
+                    className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                    onClick={() => handleEnroll(course.id)}
+                    disabled={!!enrollLoading}
+                  >
+                    {enrollLoading === course.id ? 'Enrolling...' : 'Enroll'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Quick Actions - Desktop Only */}
