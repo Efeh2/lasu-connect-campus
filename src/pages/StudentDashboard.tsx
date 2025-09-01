@@ -18,7 +18,7 @@ const StudentDashboard = () => {
 
   const quickActions = [
     { title: 'Submit Assignment', icon: FileText, href: '/student/submit-assignment', color: 'bg-green-500' },
-    { title: 'Message Teacher', icon: Send, href: '/student/message-teacher', color: 'bg-purple-500' },
+    { title: 'Message Teacher', icon: Send, href: '/student/messages', color: 'bg-purple-500' },
   ];
 
   return (
