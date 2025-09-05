@@ -46,6 +46,13 @@ const Login = () => {
               <p className="text-gray-600">Sign in to your TSI account</p>
             </div>
 
+            {/* Auth Removed Notice */}
+            <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-yellow-700 text-sm">
+                Authentication has been removed from this application. Sign in is disabled.
+              </p>
+            </div>
+
             {/* Display error if any */}
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -71,6 +78,7 @@ const Login = () => {
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                     placeholder="Enter your email"
                     required
+                    disabled
                   />
                 </div>
               </div>
@@ -91,11 +99,13 @@ const Login = () => {
                     className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors"
                     placeholder="Enter your password"
                     required
+                    disabled
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    disabled
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </button>
@@ -104,17 +114,17 @@ const Login = () => {
 
               {/* Forgot Password */}
               <div className="text-right">
-                <a href="#" className="text-sm text-purple-600 hover:text-purple-800">
+                <a href="#" className="text-sm text-purple-600 hover:text-purple-800 pointer-events-none opacity-50">
                   Forgot your password?
                 </a>
               </div>
 
               <Button
                 type="submit"
-                disabled={isLoading}
-                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:opacity-50"
+                disabled
+                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-gray-400 cursor-not-allowed"
               >
-                {isLoading ? 'Signing In...' : 'Sign In'}
+                Sign In (Disabled)
               </Button>
             </form>
 
@@ -122,8 +132,8 @@ const Login = () => {
             <div className="mt-8 text-center">
               <p className="text-gray-600">
                 Don't have an account?{' '}
-                <Link to="/signup" className="text-purple-600 hover:text-purple-800 font-semibold">
-                  Sign up here
+                <Link to="/" className="text-purple-600 hover:text-purple-800 font-semibold">
+                  Return to home
                 </Link>
               </p>
             </div>
