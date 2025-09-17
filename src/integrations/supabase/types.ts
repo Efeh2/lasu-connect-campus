@@ -4,179 +4,370 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
       profiles: {
         Row: {
-          avatar_url: string | null
-          created_at: string | null
-          email: string
-          first_name: string | null
-          id: string
-          is_online: boolean | null
-          last_name: string | null
-          level: string | null
-          phone: string | null
-          role: string
-          student_id: string | null
-          updated_at: string | null
-        }
+          id: string;
+          first_name: string;
+          last_name: string;
+          email: string;
+          role: "student" | "teacher" | "admin";
+          level: string | null;
+          student_id: string | null;
+          phone: string | null;
+          avatar_url: string | null;
+          is_online: boolean;
+          department: string;
+          created_at: string;
+          updated_at: string;
+        };
         Insert: {
-          avatar_url?: string | null
-          created_at?: string | null
-          email: string
-          first_name?: string | null
-          id: string
-          is_online?: boolean | null
-          last_name?: string | null
-          level?: string | null
-          phone?: string | null
-          role?: string
-          student_id?: string | null
-          updated_at?: string | null
-        }
+          id: string;
+          first_name: string;
+          last_name: string;
+          email: string;
+          role: "student" | "teacher" | "admin";
+          level?: string | null;
+          student_id?: string | null;
+          phone?: string | null;
+          avatar_url?: string | null;
+          is_online?: boolean;
+          department?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
         Update: {
-          avatar_url?: string | null
-          created_at?: string | null
-          email?: string
-          first_name?: string | null
-          id?: string
-          is_online?: boolean | null
-          last_name?: string | null
-          level?: string | null
-          phone?: string | null
-          role?: string
-          student_id?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-    }
+          id?: string;
+          first_name?: string;
+          last_name?: string;
+          email?: string;
+          role?: "student" | "teacher" | "admin";
+          level?: string | null;
+          student_id?: string | null;
+          phone?: string | null;
+          avatar_url?: string | null;
+          is_online?: boolean;
+          department?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      courses: {
+        Row: {
+          id: string;
+          title: string;
+          code: string;
+          description: string | null;
+          level: string;
+          credits: number;
+          teacher_id: string;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          code: string;
+          description?: string | null;
+          level: string;
+          credits?: number;
+          teacher_id: string;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          code?: string;
+          description?: string | null;
+          level?: string;
+          credits?: number;
+          teacher_id?: string;
+          is_active?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      enrollments: {
+        Row: {
+          id: string;
+          student_id: string;
+          course_id: string;
+          enrolled_at: string;
+          status: "active" | "dropped" | "completed";
+        };
+        Insert: {
+          id?: string;
+          student_id: string;
+          course_id: string;
+          enrolled_at?: string;
+          status?: "active" | "dropped" | "completed";
+        };
+        Update: {
+          id?: string;
+          student_id?: string;
+          course_id?: string;
+          enrolled_at?: string;
+          status?: "active" | "dropped" | "completed";
+        };
+      };
+      assignments: {
+        Row: {
+          id: string;
+          title: string;
+          description: string | null;
+          course_id: string;
+          due_date: string;
+          max_points: number;
+          assignment_type: "homework" | "quiz" | "exam" | "project";
+          is_published: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          description?: string | null;
+          course_id: string;
+          due_date: string;
+          max_points?: number;
+          assignment_type?: "homework" | "quiz" | "exam" | "project";
+          is_published?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          description?: string | null;
+          course_id?: string;
+          due_date?: string;
+          max_points?: number;
+          assignment_type?: "homework" | "quiz" | "exam" | "project";
+          is_published?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      submissions: {
+        Row: {
+          id: string;
+          assignment_id: string;
+          student_id: string;
+          content: string | null;
+          file_url: string | null;
+          submitted_at: string;
+          grade: number | null;
+          feedback: string | null;
+          status: "submitted" | "graded" | "returned";
+        };
+        Insert: {
+          id?: string;
+          assignment_id: string;
+          student_id: string;
+          content?: string | null;
+          file_url?: string | null;
+          submitted_at?: string;
+          grade?: number | null;
+          feedback?: string | null;
+          status?: "submitted" | "graded" | "returned";
+        };
+        Update: {
+          id?: string;
+          assignment_id?: string;
+          student_id?: string;
+          content?: string | null;
+          file_url?: string | null;
+          submitted_at?: string;
+          grade?: number | null;
+          feedback?: string | null;
+          status?: "submitted" | "graded" | "returned";
+        };
+      };
+      messages: {
+        Row: {
+          id: string;
+          sender_id: string;
+          recipient_id: string;
+          subject: string;
+          content: string;
+          is_read: boolean;
+          message_type: "general" | "assignment" | "announcement";
+          related_assignment_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          sender_id: string;
+          recipient_id: string;
+          subject: string;
+          content: string;
+          is_read?: boolean;
+          message_type?: "general" | "assignment" | "announcement";
+          related_assignment_id?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          sender_id?: string;
+          recipient_id?: string;
+          subject?: string;
+          content?: string;
+          is_read?: boolean;
+          message_type?: "general" | "assignment" | "announcement";
+          related_assignment_id?: string | null;
+          created_at?: string;
+        };
+      };
+      study_groups: {
+        Row: {
+          id: string;
+          name: string;
+          description: string | null;
+          course_id: string | null;
+          level: string;
+          max_members: number;
+          created_by: string;
+          is_active: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          description?: string | null;
+          course_id?: string | null;
+          level: string;
+          max_members?: number;
+          created_by: string;
+          is_active?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          description?: string | null;
+          course_id?: string | null;
+          level?: string;
+          max_members?: number;
+          created_by?: string;
+          is_active?: boolean;
+          created_at?: string;
+        };
+      };
+      study_group_members: {
+        Row: {
+          id: string;
+          group_id: string;
+          member_id: string;
+          joined_at: string;
+          role: "member" | "moderator";
+        };
+        Insert: {
+          id?: string;
+          group_id: string;
+          member_id: string;
+          joined_at?: string;
+          role?: "member" | "moderator";
+        };
+        Update: {
+          id?: string;
+          group_id?: string;
+          member_id?: string;
+          joined_at?: string;
+          role?: "member" | "moderator";
+        };
+      };
+      consultations: {
+        Row: {
+          id: string;
+          teacher_id: string;
+          student_id: string;
+          title: string;
+          description: string | null;
+          scheduled_at: string;
+          duration_minutes: number;
+          status: "scheduled" | "completed" | "cancelled";
+          meeting_link: string | null;
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          teacher_id: string;
+          student_id: string;
+          title: string;
+          description?: string | null;
+          scheduled_at: string;
+          duration_minutes?: number;
+          status?: "scheduled" | "completed" | "cancelled";
+          meeting_link?: string | null;
+          notes?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          teacher_id?: string;
+          student_id?: string;
+          title?: string;
+          description?: string | null;
+          scheduled_at?: string;
+          duration_minutes?: number;
+          status?: "scheduled" | "completed" | "cancelled";
+          meeting_link?: string | null;
+          notes?: string | null;
+          created_at?: string;
+        };
+      };
+      notifications: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          message: string;
+          type: "assignment" | "grade" | "message" | "announcement" | "system";
+          is_read: boolean;
+          related_id: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title: string;
+          message: string;
+          type: "assignment" | "grade" | "message" | "announcement" | "system";
+          is_read?: boolean;
+          related_id?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          title?: string;
+          message?: string;
+          type?: "assignment" | "grade" | "message" | "announcement" | "system";
+          is_read?: boolean;
+          related_id?: string | null;
+          created_at?: string;
+        };
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
+      [_ in never]: never;
+    };
+  };
 }
-
-type DefaultSchema = Database[Extract<keyof Database, "public">]
-
-export type Tables<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
-    | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
-      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
-    }
-    ? R
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])
-    ? (DefaultSchema["Tables"] &
-        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
-    : never
-
-export type TablesInsert<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
-    }
-    ? I
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
-    : never
-
-export type TablesUpdate<
-  DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema["Tables"]
-    | { schema: keyof Database },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
-> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
-    }
-    ? U
-    : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
-    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
-    : never
-
-export type Enums<
-  DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema["Enums"]
-    | { schema: keyof Database },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
-> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
-    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
-    : never
-
-export type CompositeTypes<
-  PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema["CompositeTypes"]
-    | { schema: keyof Database },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
-> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
-    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
-
-export const Constants = {
-  public: {
-    Enums: {},
-  },
-} as const

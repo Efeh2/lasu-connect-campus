@@ -129,7 +129,10 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
   const initializedRef = useRef(false);
 
   // Helper function to transform Supabase user to our User type
-  const transformUser = (supabaseUser: SupabaseUser, profile: any): User => {
+  const transformUser = (
+    supabaseUser: SupabaseUser,
+    profile: any = null
+  ): User => {
     return {
       id: supabaseUser.id,
       email: supabaseUser.email || "",
@@ -158,11 +161,19 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         } = await supabase.auth.getSession();
 
         if (session?.user && mounted) {
-          const { data: profile } = await supabase
+          // Fetch profile data to get the correct role
+          const { data: profile, error: profileError } = await supabase
             .from("profiles")
             .select("*")
             .eq("id", session.user.id)
             .single();
+
+          if (profileError) {
+            console.error(
+              "Profile fetch error during initialization:",
+              profileError
+            );
+          }
 
           const user = transformUser(session.user, profile);
           dispatch({
@@ -192,12 +203,19 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
       if (!initializedRef.current) return;
 
       if (session?.user && mounted) {
-        // Fetch user profile
-        const { data: profile } = await supabase
+        // Fetch profile data to get the correct role
+        const { data: profile, error: profileError } = await supabase
           .from("profiles")
           .select("*")
           .eq("id", session.user.id)
           .single();
+
+        if (profileError) {
+          console.error(
+            "Profile fetch error during auth change:",
+            profileError
+          );
+        }
 
         const user = transformUser(session.user, profile);
         dispatch({
@@ -222,8 +240,26 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "LOGIN_START" });
 
     try {
+      // Check if Supabase is properly configured
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+      if (!supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder")) {
+        const errorMessage =
+          "Supabase is not configured. Please check your environment variables.";
+        dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
+        toast({
+          title: "Configuration Error",
+          description:
+            "Please set up your Supabase credentials in the .env file",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const redirectUrl = `${window.location.origin}/`;
 
+      // First, sign up the user with metadata
       const { data, error } = await supabase.auth.signUp({
         email: userData.email,
         password: userData.password,
@@ -233,9 +269,9 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
             first_name: userData.firstName,
             last_name: userData.lastName,
             role: userData.role,
-            level: userData.level,
-            student_id: userData.studentId,
-            phone: userData.phone,
+            level: userData.level || null,
+            student_id: userData.studentId || null,
+            phone: userData.phone || null,
           },
         },
       });
@@ -250,16 +286,85 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
         return;
       }
 
+      // Create profile immediately after user creation
+      if (data.user) {
+        try {
+          // Try to create profile immediately
+          const { error: createError } = await supabase
+            .from("profiles")
+            .insert({
+              id: data.user.id,
+              first_name: userData.firstName,
+              last_name: userData.lastName,
+              email: userData.email,
+              role: userData.role,
+              level: userData.level || null,
+              student_id: userData.studentId || null,
+              phone: userData.phone || null,
+              department: "Computer Science",
+            } as any);
+
+          if (createError) {
+            console.error("Profile creation error:", createError);
+            // If it fails due to duplicate (profile already exists), that's okay
+            if (createError.code !== "23505") {
+              console.warn(
+                "Profile creation failed, but user was created successfully"
+              );
+            }
+          } else {
+            console.log("Profile created successfully");
+          }
+        } catch (error) {
+          console.error("Profile creation error:", error);
+        }
+      }
+
       if (data.user && !data.session) {
         toast({
           title: "Check your email",
           description:
             "Please check your email for a verification link to complete your signup.",
         });
+      } else if (data.user && data.session) {
+        // User is automatically signed in - fetch profile to get correct role
+        const { data: profile, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", data.user.id)
+          .single();
+
+        if (profileError) {
+          console.error("Profile fetch error during signup:", profileError);
+        }
+
+        dispatch({
+          type: "LOGIN_SUCCESS",
+          payload: {
+            user: transformUser(data.user, profile),
+            session: data.session,
+          },
+        });
+        toast({
+          title: "Welcome!",
+          description: "Your account has been created successfully.",
+        });
       }
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Signup failed";
+      let errorMessage = "Signup failed";
+
+      if (error instanceof Error) {
+        if (error.message.includes("Failed to fetch")) {
+          errorMessage =
+            "Network error. Please check your Supabase configuration.";
+        } else if (error.message.includes("ERR_NAME_NOT_RESOLVED")) {
+          errorMessage =
+            "Invalid Supabase URL. Please check your environment variables.";
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
       dispatch({ type: "LOGIN_FAILURE", payload: errorMessage });
       toast({
         title: "Error",
@@ -357,7 +462,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({
 
 export const useUser = () => {
   const context = useContext(UserContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;

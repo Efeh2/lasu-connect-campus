@@ -46,6 +46,7 @@ const Login = () => {
               <p className="text-gray-600">Sign in to your TSI account</p>
             </div>
 
+
             {/* Display error if any */}
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -112,9 +113,9 @@ const Login = () => {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:opacity-50"
+                className="w-full py-3 px-4 rounded-lg font-semibold text-white transition-colors bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Signing In...' : 'Sign In'}
+                {isLoading ? "Signing In..." : "Sign In"}
               </Button>
             </form>
 
@@ -122,8 +123,8 @@ const Login = () => {
             <div className="mt-8 text-center">
               <p className="text-gray-600">
                 Don't have an account?{' '}
-                <Link to="/signup" className="text-purple-600 hover:text-purple-800 font-semibold">
-                  Sign up here
+                <Link to="/" className="text-purple-600 hover:text-purple-800 font-semibold">
+                  Return to home
                 </Link>
               </p>
             </div>
